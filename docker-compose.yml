@@ -1,0 +1,21 @@
+services:
+  pet-found-front:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./front/.env
+    depends_on:
+      - pet-found-api
+    ports:
+      - '3000:3000'
+    networks:
+      - pet-found-network
+
+networks:
+  pet-found-network:
+    driver: bridge
+
+volumes:
+  pet-found-db-data:
+    driver: local

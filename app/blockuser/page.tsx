@@ -1,9 +1,9 @@
 import PageTemplate from '@/components/pages/PageTemplate'
 
-export default function Home() {
+export default function BlockUserPage() {
   return (
     <PageTemplate hasDefaultHeader>
-      <h1>Entrar</h1>
+      <h1>Bloquear Usuário</h1>
     </PageTemplate>
   )
 }

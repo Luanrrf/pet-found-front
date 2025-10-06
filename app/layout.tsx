@@ -26,6 +26,13 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{
+          margin: 0,
+          padding: 20,
+          background:
+            'linear-gradient(180deg, var(--Tertiary, #FEE7B8) 30%, #FFF 70%)',
+          minHeight: 'calc(100vh - 40px)',
+        }}
       >
         {children}
       </body>

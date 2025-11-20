@@ -1,9 +1,10 @@
 import PageTemplate from '@/components/pages/PageTemplate'
+import { WelcomeTemplate } from '@/components/templates/WelcomeTemplate'
 
 export default function Home() {
   return (
-    <PageTemplate hasDefaultHeader>
-      <h1>Entrar</h1>
+    <PageTemplate>
+      <WelcomeTemplate />;
     </PageTemplate>
   )
 }

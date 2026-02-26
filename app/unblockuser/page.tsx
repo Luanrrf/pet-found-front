@@ -4,30 +4,40 @@ import RequestGenericError from '@/components/molecules/RequestGenericError'
 import RequestSuccess from '@/components/molecules/RequestSuccess'
 import UnauthorizedError from '@/components/molecules/UnauthorizedError'
 import PageTemplate from '@/components/pages/PageTemplate'
-import { BlockUserTemplate } from '@/components/templates/BlockUserTemplate'
+import { UnblockUserTemplate } from '@/components/templates/UnblockUserTemplate'
 import useFetcher from '@/components/utils/useFetcher'
 import { useState } from 'react'
 
-export default function BlockUserPage() {
+export default function UnblockUserPage() {
   const [responseStatus, setResponseStatus] = useState<number>(0)
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
-    const email = formData.get('email')
+    const email = formData.get('email') as string
 
+    // 1️⃣ Buscar usuário pelo e-mail
+    const userResult = await fetch(`http://localhost:3001/user/email/${email}`)
+
+    if (!userResult.ok) {
+      setResponseStatus(userResult.status)
+      return
+    }
+
+    const user = await userResult.json()
+
+    // 2️⃣ Desbloquear usuário pelo ID
     await useFetcher({
-      url: 'http://localhost:3001/users/block', // coloque sua rota real
-      method: 'POST',
-      body: { email },
+      url: `http://localhost:3001/user/unblock/${user.id}`,
+      method: 'PATCH',
       setState: setResponseStatus,
     })
   }
 
   return (
     <PageTemplate hasDefaultHeader>
-      {responseStatus === 0 && <BlockUserTemplate onSubmit={handleSubmit} />}
+      {responseStatus === 0 && <UnblockUserTemplate onSubmit={handleSubmit} />}
       {responseStatus === 401 && <UnauthorizedError />}
       {responseStatus > 401 && <RequestGenericError />}
       {responseStatus >= 200 && responseStatus < 300 && <RequestSuccess />}

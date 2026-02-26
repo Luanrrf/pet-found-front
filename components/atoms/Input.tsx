@@ -14,7 +14,20 @@ export function Input({ type, id, name, required, placeholder }: InputProps) {
       name={name}
       required={required ?? false}
       placeholder={placeholder}
-      className="border rounded-xl px-4 py-2 w-full"
+      className="
+        w-full
+        rounded-full
+        border
+        border-[#E6DCC8]
+        bg-[#FBF3E3]
+        px-4
+        py-2.5
+        text-[#5F4A2E]
+        placeholder-[#A08E74]
+        outline-none
+        focus:border-[#C5B89E]
+        transition
+      "
     />
   )
 }

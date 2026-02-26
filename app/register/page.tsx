@@ -1,9 +1,58 @@
+'use client'
+
+import RequestGenericError from '@/components/molecules/RequestGenericError'
+import RequestSuccess from '@/components/molecules/RequestSuccess'
+import UnauthorizedError from '@/components/molecules/UnauthorizedError'
 import PageTemplate from '@/components/pages/PageTemplate'
+import { RegisterTemplate } from '@/components/templates/RegisterTemplate'
+import useFetcher from '@/components/utils/useFetcher'
+import { useState } from 'react'
 
 export default function RegisterPage() {
+  const [responseStatus, setResponseStatus] = useState<number>(0)
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const formData = new FormData(event.currentTarget)
+
+    const cpf = formData.get('cpf')
+    const name = formData.get('name')
+    const email = formData.get('email')
+    const password = formData.get('password')
+    const confirmPassword = formData.get('confirmPassword')
+    const agree = formData.get('agree')
+
+    if (!agree) {
+      alert('Você precisa concordar com os termos para continuar.')
+      return
+    }
+
+    if (password !== confirmPassword) {
+      alert('As senhas não coincidem.')
+      return
+    }
+
+    await useFetcher({
+      url: 'http://localhost:3001/auth/register',
+      method: 'POST',
+      body: {
+        cpf,
+        name,
+        email,
+        password,
+      },
+      setState: setResponseStatus,
+    })
+  }
+
   return (
     <PageTemplate hasDefaultHeader>
-      <h1>Registre-se</h1>
+      <RegisterTemplate onSubmit={handleSubmit} />
+
+      {responseStatus === 401 && <UnauthorizedError />}
+      {responseStatus > 401 && <RequestGenericError />}
+      {responseStatus >= 200 && responseStatus < 300 && <RequestSuccess />}
     </PageTemplate>
   )
 }

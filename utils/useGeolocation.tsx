@@ -27,7 +27,7 @@ export function useGeolocation() {
 
         try {
           const response = await fetch(
-            `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}&accept-language=pt-BR`
+            `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}&accept-language=pt-BR&api_key=69a04bb470d5a286933597olr3b7930`
           )
 
           if (!response.ok) throw new Error('Falha na requisição')

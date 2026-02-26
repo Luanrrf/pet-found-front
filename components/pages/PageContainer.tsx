@@ -27,7 +27,7 @@ const PageContainer = ({ children }: { children: React.ReactNode }) => {
         marginLeft: '-20px',
         marginBottom: '-20px',
         width: 'calc(100%)',
-        minHeight: `calc(100vh - ${positionY}px - 80px)`,
+        minHeight: `calc(100vh - ${positionY}px - 40px)`,
         padding: '20px',
       }}
     >

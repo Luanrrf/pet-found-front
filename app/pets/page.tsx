@@ -1,13 +1,15 @@
-import TitleWithLocation from '@/components/molecules/TitleWithLocation'
 import PageContainer from '@/components/pages/PageContainer'
 import PageTemplate from '@/components/pages/PageTemplate'
+import { PLPTemplate } from '@/components/templates/PLPTemplate'
 
 export default function PetListPage() {
   return (
     <PageTemplate hasDefaultHeader>
+      <h1>Encontre agora um animal que é a sua cara</h1>
       <div>
-        <TitleWithLocation />
-        <PageContainer>Lista de animais</PageContainer>
+        <PageContainer>
+          <PLPTemplate />
+        </PageContainer>
       </div>
     </PageTemplate>
   )

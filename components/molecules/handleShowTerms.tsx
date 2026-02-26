@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
 
 export async function handleShowTerms() {
-  const html = `
+  const rawHtml = `
     <h2>Termos e Condições de Uso</h2>
 
     <p>
@@ -55,11 +55,29 @@ export async function handleShowTerms() {
     </p>
   `
 
+  const sanitizedHtml = sanitizeHtml(rawHtml)
+
   Swal.fire({
     title: 'Termos e Condições',
-    html: html,
+    html: sanitizedHtml,
     width: 600,
     confirmButtonText: 'Fechar',
     confirmButtonColor: '#f97316',
   })
+}
+
+function sanitizeHtml(html: string): string {
+  const doc = new DOMParser().parseFromString(html, 'text/html')
+
+  doc.querySelectorAll('script, iframe').forEach((el) => el.remove())
+
+  doc.body.querySelectorAll('*').forEach((el) => {
+    Array.from(el.attributes).forEach((attr) => {
+      if (attr.name.startsWith('on')) {
+        el.removeAttribute(attr.name)
+      }
+    })
+  })
+
+  return doc.body.innerHTML
 }

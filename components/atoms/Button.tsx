@@ -9,7 +9,7 @@ type ButtonProps = {
   className?: string
   type?: 'button' | 'submit' | 'reset'
   color?: 'orange' | 'green' | 'blue' | 'red'
-  emojiSrc?: string // png opcional
+  emojiSrc?: string
 }
 
 const COLOR_MAP = {

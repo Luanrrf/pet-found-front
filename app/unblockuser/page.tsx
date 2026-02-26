@@ -16,8 +16,6 @@ export default function UnblockUserPage() {
 
     const formData = new FormData(event.currentTarget)
     const email = formData.get('email') as string
-
-    // 1️⃣ Buscar usuário pelo e-mail
     const userResult = await fetch(`http://localhost:3001/user/email/${email}`)
 
     if (!userResult.ok) {
@@ -26,8 +24,6 @@ export default function UnblockUserPage() {
     }
 
     const user = await userResult.json()
-
-    // 2️⃣ Desbloquear usuário pelo ID
     await useFetcher({
       url: `http://localhost:3001/user/unblock/${user.id}`,
       method: 'PATCH',

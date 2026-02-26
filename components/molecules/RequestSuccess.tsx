@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 interface RequestSuccessProps {
   message?: string
   title?: string
-  redirectTo?: string // opcional
+  redirectTo?: string
 }
 
 export default function RequestSuccess({
@@ -26,5 +26,5 @@ export default function RequestSuccess({
     })
   }, [message, title, redirectTo])
 
-  return null // Apenas dispara o alerta
+  return null
 }

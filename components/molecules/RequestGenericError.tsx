@@ -18,5 +18,5 @@ export default function RequestGenericError({
     })
   }, [message])
 
-  return null // Apenas dispara o alerta
+  return null
 }

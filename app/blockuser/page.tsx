@@ -18,7 +18,7 @@ export default function BlockUserPage() {
     const email = formData.get('email')
 
     await useFetcher({
-      url: 'http://localhost:3001/users/block', // coloque sua rota real
+      url: 'http://localhost:3001/users/block',
       method: 'POST',
       body: { email },
       setState: setResponseStatus,

@@ -1,7 +1,13 @@
 'use client'
 import React, { useRef, useEffect } from 'react'
 
-const PageContainer = ({ children }: { children: React.ReactNode }) => {
+const PageContainer = ({
+  children,
+  ...props
+}: {
+  children: React.ReactNode
+  [key: string]: unknown
+}) => {
   const [positionY, setPositionY] = React.useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -26,9 +32,11 @@ const PageContainer = ({ children }: { children: React.ReactNode }) => {
         boxShadow: '0 0 4px 0 rgba(0, 0, 0, 0.25)',
         marginLeft: '-20px',
         marginBottom: '-20px',
-        width: 'calc(100%)',
-        minHeight: `calc(100vh - ${positionY}px - 40px)`,
-        padding: '20px',
+        width: 'calc(100% + 40px)',
+        minHeight: `calc(100vh - ${positionY}px)`,
+        padding: '32px',
+        position: 'relative',
+        ...props,
       }}
     >
       {children}

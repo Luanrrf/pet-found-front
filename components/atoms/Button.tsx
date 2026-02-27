@@ -11,14 +11,10 @@ export function Button({
   children,
   onClick,
   type = 'button',
-  className = '',
+  className = 'bg-orange-500 text-white rounded-xl px-4 py-2',
 }: ButtonProps) {
   return (
-    <button
-      type={type}
-      onClick={onClick}
-      className={`bg-orange-500 text-white rounded-xl px-4 py-2 ${className}`}
-    >
+    <button type={type} onClick={onClick} className={className}>
       {children}
     </button>
   )

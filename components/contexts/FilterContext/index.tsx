@@ -1,22 +1,26 @@
 'use client'
 
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-
-import type { FilterContextProps } from './types'
-import { AnimalProps } from '@/components/types/animal'
+import type { FilterContextProps, FilterPageContextProps } from './types'
 import { API_URL } from '@/components/constants/api'
 
 const FilterContext = createContext<FilterContextProps | null>(null)
 
-export const FilterProvider = ({
-  children,
-}: AnimalProps & { children: React.ReactNode }) => {
-  const [pageContext, setPageContext] = useState<AnimalProps[]>([])
+export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
+  const [pageContext, setPageContext] = useState<FilterPageContextProps>({
+    animals: [],
+    filters: {},
+  })
 
   useEffect(() => {
     fetch(`${API_URL}/animal`)
       .then((res) => res.json())
-      .then((data: AnimalProps[]) => setPageContext(data))
+      .then((data) =>
+        setPageContext((prev) => ({
+          ...prev,
+          animals: data,
+        }))
+      )
   }, [])
 
   const contextValue = useMemo(
@@ -34,8 +38,9 @@ export const FilterProvider = ({
 export const useFilterContext = () => {
   const context = useContext(FilterContext)
 
-  if (!context)
+  if (!context) {
     throw new Error('useFilterContext must be used within a FilterProvider')
+  }
 
   return context
 }

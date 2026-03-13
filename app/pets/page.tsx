@@ -1,3 +1,6 @@
+'use client'
+
+import { FilterProvider } from '@/components/contexts/FilterContext'
 import Title from '@/components/molecules/Title'
 import PageContainer from '@/components/pages/PageContainer'
 import PageTemplate from '@/components/pages/PageTemplate'
@@ -9,7 +12,9 @@ export default function PetListPage() {
       <Title text="Encontre agora um animal que é a sua cara" />
       <div>
         <PageContainer>
-          <PLPTemplate />
+          <FilterProvider>
+            <PLPTemplate />
+          </FilterProvider>
         </PageContainer>
       </div>
     </PageTemplate>

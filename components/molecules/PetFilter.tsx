@@ -10,11 +10,13 @@ export default function PetFilter({
   title,
   filterKey,
   options,
+  pageContext,
   setPageContext,
 }: {
   title: string
   filterKey: string
   options: Option[]
+  pageContext: FilterPageContextProps
   setPageContext: Dispatch<SetStateAction<FilterPageContextProps>>
 }) {
   const handleChange = (value: string, checked: boolean) => {
@@ -50,6 +52,10 @@ export default function PetFilter({
                 value={option.value}
                 className="sr-only peer"
                 onChange={(e) => handleChange(option.value, e.target.checked)}
+                checked={
+                  pageContext.filters[filterKey]?.includes(option.value) ||
+                  false
+                }
               />
 
               <div

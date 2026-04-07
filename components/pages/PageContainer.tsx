@@ -34,7 +34,7 @@ const PageContainer = ({
         marginBottom: '-20px',
         width: 'calc(100% + 40px)',
         minHeight: `calc(100vh - ${positionY}px)`,
-        padding: '32px',
+        padding: '32px 20px',
         position: 'relative',
         ...props,
       }}

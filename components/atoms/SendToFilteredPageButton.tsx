@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { FilterPageContextProps } from '../contexts/FilterContext/types'
 import { Button } from './Button'
 import { useRouter } from 'next/navigation'
 
 const SendToFilteredPageButton = ({
   filters,
+  setOpenFilter,
 }: {
   filters: FilterPageContextProps['filters']
+  setOpenFilter: Dispatch<SetStateAction<boolean>>
 }) => {
   const query = buildQueryString(filters)
-
-  console.log('query', query)
 
   const router = useRouter()
 
@@ -18,6 +18,7 @@ const SendToFilteredPageButton = ({
     <Button
       onClick={() => {
         router.push(`/pets${query}`)
+        setOpenFilter(false)
       }}
     >
       Filtrar

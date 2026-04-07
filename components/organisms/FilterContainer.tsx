@@ -16,26 +16,30 @@ export function FilterContainer({
   return (
     <ModalFilter setOpenFilter={setOpenFilter}>
       <PetFilter
-        title="Porte"
-        filterKey="size"
-        options={[
-          { label: 'Pequeno', value: 'small' },
-          { label: 'Médio', value: 'medium' },
-          { label: 'Grande', value: 'large' },
-        ]}
-        setPageContext={setPageContext}
-      />
-      <PetFilter
         title="Sexo"
         filterKey="gender"
         options={[
-          { label: 'Macho', value: 'male' },
-          { label: 'Fêmea', value: 'female' },
+          { label: 'Macho', value: 'Male' },
+          { label: 'Fêmea', value: 'Female' },
         ]}
+        pageContext={pageContext}
+        setPageContext={setPageContext}
+      />
+      <PetFilter
+        title="Tipo"
+        filterKey="type"
+        options={[
+          { label: 'Cachorro', value: 'Dog' },
+          { label: 'Gato', value: 'Cat' },
+        ]}
+        pageContext={pageContext}
         setPageContext={setPageContext}
       />
 
-      <SendToFilteredPageButton filters={pageContext.filters} />
+      <SendToFilteredPageButton
+        filters={pageContext.filters}
+        setOpenFilter={setOpenFilter}
+      />
     </ModalFilter>
   )
 }

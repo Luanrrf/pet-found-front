@@ -1,18 +1,21 @@
 import PetFilter from '../molecules/PetFilter'
 import { ModalFilter } from '../molecules/ModalFilter'
 import SendToFilteredPageButton from '../atoms/SendToFilteredPageButton'
-import { FilterPageContextProps } from '../contexts/FilterContext/types'
 import { Dispatch, SetStateAction } from 'react'
+import { useFilterContext } from '../contexts/FilterContext'
+import Loader from '../atoms/Loader'
 
 export function FilterContainer({
-  pageContext,
-  setPageContext,
   setOpenFilter,
 }: {
-  pageContext: FilterPageContextProps
-  setPageContext: Dispatch<SetStateAction<FilterPageContextProps>>
   setOpenFilter: Dispatch<SetStateAction<boolean>>
 }) {
+  const { pageContext, setPageContext } = useFilterContext()
+
+  if (!pageContext) {
+    return <Loader />
+  }
+
   return (
     <ModalFilter setOpenFilter={setOpenFilter}>
       <PetFilter

@@ -3,11 +3,13 @@ import { AnimalProps } from '../types/animal'
 import Link from 'next/link'
 import Image from 'next/image'
 
-const PetCard = ({ id, image }: AnimalProps) => {
+const PetCard = ({ id, images }: AnimalProps) => {
+  const firstImage = images && images.length > 0 ? images[0].url : null
+
   return (
     <Link href={`/pet/${id}`} className="w-[100px] h-[100px] rounded-[20px]">
       <Image
-        src={image ?? ''}
+        src={firstImage ?? ''}
         alt="pet"
         width={200}
         height={200}

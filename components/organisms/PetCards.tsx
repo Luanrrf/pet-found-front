@@ -4,6 +4,8 @@ import React from 'react'
 import { AnimalProps } from '../types/animal'
 import PetCard from '../molecules/PetCard'
 import { useFilterContext } from '../contexts/FilterContext'
+import { API_URL } from '../constants/api'
+import Loader from '../atoms/Loader'
 
 const PetCards = () => {
   const { pageContext } = useFilterContext()
@@ -12,9 +14,9 @@ const PetCards = () => {
     data: animals,
     loading,
     error,
-  } = useApi<AnimalProps[]>('https://pet-found-backend.up.railway.app/animal')
+  } = useApi<AnimalProps[]>(`${API_URL}/animal`)
 
-  if (loading) return <p>Carregando...</p>
+  if (loading) return <Loader />
   if (error) return <p>Erro ao carregar</p>
 
   const { filters } = pageContext

@@ -8,6 +8,8 @@ import { BlockUserTemplate } from '@/components/templates/BlockUserTemplate'
 import useFetcher from '@/components/utils/useFetcher'
 import { useState } from 'react'
 
+const API_URL = 'https://pet-found-backend.up.railway.app'
+
 export default function BlockUserPage() {
   const [responseStatus, setResponseStatus] = useState<number>(0)
 
@@ -15,12 +17,22 @@ export default function BlockUserPage() {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
-    const email = formData.get('email')
+    const email = formData.get('email') as string
+
+    const userResult = await fetch(
+      `${API_URL}/user?email=${encodeURIComponent(email)}`
+    )
+
+    if (!userResult.ok) {
+      setResponseStatus(userResult.status)
+      return
+    }
+
+    const user = await userResult.json()
 
     await useFetcher({
-      url: 'http://localhost:3001/users/block',
-      method: 'POST',
-      body: { email },
+      url: `${API_URL}/user/block/${user.id}`,
+      method: 'PATCH',
       setState: setResponseStatus,
     })
   }

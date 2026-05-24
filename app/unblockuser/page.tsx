@@ -8,6 +8,8 @@ import { UnblockUserTemplate } from '@/components/templates/UnblockUserTemplate'
 import useFetcher from '@/components/utils/useFetcher'
 import { useState } from 'react'
 
+const API_URL = 'https://pet-found-backend.up.railway.app'
+
 export default function UnblockUserPage() {
   const [responseStatus, setResponseStatus] = useState<number>(0)
 
@@ -16,7 +18,9 @@ export default function UnblockUserPage() {
 
     const formData = new FormData(event.currentTarget)
     const email = formData.get('email') as string
-    const userResult = await fetch(`http://localhost:3001/user/email/${email}`)
+    const userResult = await fetch(
+      `${API_URL}/user?email=${encodeURIComponent(email)}`
+    )
 
     if (!userResult.ok) {
       setResponseStatus(userResult.status)
@@ -25,7 +29,7 @@ export default function UnblockUserPage() {
 
     const user = await userResult.json()
     await useFetcher({
-      url: `http://localhost:3001/user/unblock/${user.id}`,
+      url: `${API_URL}/user/unblock/${user.id}`,
       method: 'PATCH',
       setState: setResponseStatus,
     })

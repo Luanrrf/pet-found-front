@@ -1,12 +1,14 @@
-type InputProps = {
-  type: string
-  id: string
-  name: string
-  placeholder?: string
-  required?: boolean
-}
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-export function Input({ type, id, name, required, placeholder }: InputProps) {
+export function Input({
+  type,
+  id,
+  name,
+  required,
+  placeholder,
+  className,
+  ...rest
+}: InputProps) {
   return (
     <input
       type={type}
@@ -14,7 +16,7 @@ export function Input({ type, id, name, required, placeholder }: InputProps) {
       name={name}
       required={required ?? false}
       placeholder={placeholder}
-      className="
+      className={`
         w-full
         rounded-full
         border
@@ -27,7 +29,9 @@ export function Input({ type, id, name, required, placeholder }: InputProps) {
         outline-none
         focus:border-[#C5B89E]
         transition
-      "
+        ${className ?? ''}
+      `}
+      {...rest}
     />
   )
 }

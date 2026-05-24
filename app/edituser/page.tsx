@@ -10,6 +10,8 @@ import Swal from 'sweetalert2'
 
 import { useState } from 'react'
 
+const API_URL = 'https://pet-found-backend.up.railway.app'
+
 export default function EditUserPage() {
   const [responseStatus, setResponseStatus] = useState<number>(0)
 
@@ -23,7 +25,7 @@ export default function EditUserPage() {
     const password = formData.get('password')
 
     await useFetcher({
-      url: 'http://localhost:3001/user/update', // <-- sua rota
+      url: `${API_URL}/user`,
       method: 'PATCH',
       body: {
         cpf,
@@ -49,8 +51,8 @@ export default function EditUserPage() {
     if (!confirm.isConfirmed) return
 
     await useFetcher({
-      url: 'http://localhost:3001/user/delete', // <-- coloque sua rota real
-      method: 'DELETE',
+      url: `${API_URL}/user/deactivate`,
+      method: 'PATCH',
       setState: setResponseStatus,
     })
   }

@@ -7,6 +7,9 @@ import PageTemplate from '@/components/pages/PageTemplate'
 import { RegisterTemplate } from '@/components/templates/RegisterTemplate'
 import useFetcher from '@/components/utils/useFetcher'
 import { useState } from 'react'
+import { validateCPF } from '@/utils/ValidateCpf'
+
+const API_URL = 'https://pet-found-backend.up.railway.app'
 
 export default function RegisterPage() {
   const [responseStatus, setResponseStatus] = useState<number>(0)
@@ -33,8 +36,13 @@ export default function RegisterPage() {
       return
     }
 
+    if (!validateCPF(cpf as string)) {
+      alert('CPF inválido')
+      return
+    }
+
     await useFetcher({
-      url: 'http://localhost:3001/auth/register',
+      url: `${API_URL}/user`,
       method: 'POST',
       body: {
         cpf,

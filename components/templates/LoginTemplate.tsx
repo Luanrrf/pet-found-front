@@ -1,20 +1,45 @@
-import { LoginForm } from '../organisms/LoginForm'
+'use client'
 
-export function LoginTemplate() {
+import LoginForm from '@/components/molecules/LoginForm'
+import AgreementModal from '@/components/molecules/AgreementModal'
+
+interface Props {
+  loading: boolean
+  error: string
+  agreementOpen: boolean
+  setAgreementOpen: (value: boolean) => void
+
+  handleLogin: (data: { email: string; password: string }) => void
+}
+
+export default function LoginTemplate({
+  loading,
+  error,
+  agreementOpen,
+  setAgreementOpen,
+  handleLogin,
+}: Props) {
   return (
-    <>
-      <h1 className="text-4xl font-bold text-black mb-6 text-center mt-20">
-        Entrar
-      </h1>
+    <div className="min-h-screen px-5 py-6">
+      <div className="w-full max-w-[390px] mx-auto">
+        <div className="mt-28">
+          <h2 className="text-[52px] font-bold text-[#333] text-center mb-14">
+            Entrar
+          </h2>
 
-      <LoginForm />
+          <LoginForm
+            loading={loading}
+            error={error}
+            setAgreementOpen={setAgreementOpen}
+            handleLogin={handleLogin}
+          />
+        </div>
+      </div>
 
-      <p className="mt-60 text-sm text-center">
-        Primeira vez?{' '}
-        <a href="/register" className="text-orange-600 font-semibold">
-          Clique aqui
-        </a>
-      </p>
-    </>
+      <AgreementModal
+        open={agreementOpen}
+        onClose={() => setAgreementOpen(false)}
+      />
+    </div>
   )
 }

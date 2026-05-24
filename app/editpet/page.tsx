@@ -1,19 +1,56 @@
-import PageContainer from '@/components/pages/PageContainer'
+'use client'
+
+import { useState } from 'react'
+import DOMPurify from 'dompurify'
+
 import PageTemplate from '@/components/pages/PageTemplate'
+import EditPetTemplate from '@/components/templates/EditPetTemplate'
+import WarningModal from '@/components/molecules/WarningModal'
 
 export default function EditPetPage() {
+  const [open, setOpen] = useState(true)
+
+  async function handleEditPet(formData: FormData) {
+    const token = localStorage.getItem('token')
+
+    const response = await fetch(
+      'https://pet-found-backend.up.railway.app/animal/1',
+      {
+        method: 'PATCH',
+
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify({
+          type: DOMPurify.sanitize(formData.get('type') as string),
+
+          size: DOMPurify.sanitize(formData.get('size') as string),
+
+          gender: DOMPurify.sanitize(formData.get('gender') as string),
+
+          image: DOMPurify.sanitize(formData.get('image') as string),
+
+          observations: DOMPurify.sanitize(
+            formData.get('observations') as string
+          ),
+
+          is_adopted: formData.get('is_adopted') === 'true',
+        }),
+      }
+    )
+
+    if (response.ok) {
+      alert('Pet atualizado com sucesso!')
+    }
+  }
+
   return (
     <PageTemplate hasDefaultHeader>
-      <div>
-        <h1 className="text-[#333] font-inter text-[32px] not-italic font-bold leading-normal">
-          Encontrou um{' '}
-          <span className="text-[var(--Primary,#EF7E06)] font-bold">
-            animal
-          </span>{' '}
-          perdido?
-        </h1>
-        <PageContainer>CONTEÚDO DE PET PAGE</PageContainer>
-      </div>
+      <EditPetTemplate onSubmit={handleEditPet} />
+
+      <WarningModal open={open} onClose={() => setOpen(false)} />
     </PageTemplate>
   )
 }

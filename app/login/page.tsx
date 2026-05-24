@@ -1,40 +1,69 @@
 'use client'
 
-// import RequestGenericError from '@/components/molecules/RequestGenericError'
-// import RequestSuccess from '@/components/molecules/RequestSuccess'
-// import UnauthorizedError from '@/components/molecules/UnauthorizedError'
-// import { LoginTemplate } from '@/components/templates/LoginTemplate'
-// import useFetcher from '@/components/utils/useFetcher'
-// import { useState } from 'react'
+import { useState } from 'react'
+import DOMPurify from 'dompurify'
 import PageTemplate from '@/components/pages/PageTemplate'
+import LoginTemplate from '@/components/templates/LoginTemplate'
 
 export default function LoginPage() {
-  // const [responseStatus, setResponseStatus] = useState<number>(0)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [agreementOpen, setAgreementOpen] = useState(false)
 
-  // async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-  //   event.preventDefault()
-  //   const formData = new FormData(event.currentTarget)
-  //   const email = formData.get('email')
-  //   const password = formData.get('password')
+  async function handleLogin(data: { email: string; password: string }) {
+    try {
+      setLoading(true)
+      setError('')
 
-  //   await useFetcher({
-  //     url: 'http://localhost:3001/auth/login',
-  //     method: 'POST',
-  //     body: {
-  //       email: email as string,
-  //       password: password as string,
-  //     },
-  //     setState: setResponseStatus,
-  //   })
-  // }
+      const sanitizedEmail = DOMPurify.sanitize(data.email)
+      const sanitizedPassword = DOMPurify.sanitize(data.password)
+
+      const ipResponse = await fetch('https://api.ipify.org?format=json')
+      const ipData = await ipResponse.json()
+
+      const response = await fetch(
+        'https://pet-found-backend.up.railway.app/auth/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: sanitizedEmail,
+            password: sanitizedPassword,
+          }),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error('Email ou senha inválidos')
+      }
+
+      const result = await response.json()
+
+      localStorage.setItem('token', result.access_token)
+      localStorage.setItem('user', JSON.stringify(result.user))
+      localStorage.setItem('user_ip', ipData.ip)
+
+      window.location.href = '/animallistpage'
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Erro ao fazer login'
+
+      setError(message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <PageTemplate hasDefaultHeader>
-      {/* {responseStatus === 0 && <LoginTemplate />}
-      {responseStatus === 401 && <UnauthorizedError />}
-      {responseStatus > 401 && <RequestGenericError />}
-      {responseStatus >= 200 && responseStatus < 300 && <RequestSuccess />} */}
-      teste
+      <LoginTemplate
+        loading={loading}
+        error={error}
+        agreementOpen={agreementOpen}
+        setAgreementOpen={setAgreementOpen}
+        handleLogin={handleLogin}
+      />
     </PageTemplate>
   )
 }

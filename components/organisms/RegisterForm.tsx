@@ -5,12 +5,17 @@ import { RegisterFields } from '../molecules/RegisterFields'
 import { Button } from '../atoms/Button'
 import { handleShowTerms } from '../molecules/handleShowTerms'
 
-export function RegisterForm() {
+interface Props {
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+}
+
+export function RegisterForm({ onSubmit }: Props) {
   const [error, setError] = useState('')
 
   async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setError('')
+    onSubmit(e)
   }
 
   return (

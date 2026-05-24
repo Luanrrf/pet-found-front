@@ -11,7 +11,7 @@ export function WelcomeActions() {
       <Link href="/register">
         <Button className="bg-orange-400">Registrar</Button>
       </Link>
-      <Link href="/pets">
+      <Link href="/petpage">
         <Button>Conhecer os Pets</Button>
       </Link>
     </div>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import DOMPurify from 'dompurify'
 import PageTemplate from '@/components/pages/PageTemplate'
 import LoginTemplate from '@/components/templates/LoginTemplate'
+import { API_URL } from '@/components/constants/api'
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false)
@@ -21,19 +22,16 @@ export default function LoginPage() {
       const ipResponse = await fetch('https://api.ipify.org?format=json')
       const ipData = await ipResponse.json()
 
-      const response = await fetch(
-        'https://pet-found-backend.up.railway.app/auth/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: sanitizedEmail,
-            password: sanitizedPassword,
-          }),
-        }
-      )
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: sanitizedEmail,
+          password: sanitizedPassword,
+        }),
+      })
 
       if (!response.ok) {
         throw new Error('Email ou senha inválidos')

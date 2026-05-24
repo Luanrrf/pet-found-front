@@ -8,8 +8,7 @@ import { RegisterTemplate } from '@/components/templates/RegisterTemplate'
 import useFetcher from '@/components/utils/useFetcher'
 import { useState } from 'react'
 import { validateCPF } from '@/utils/ValidateCpf'
-
-const API_URL = 'https://pet-found-backend.up.railway.app'
+import { API_URL } from '@/components/constants/api'
 
 export default function RegisterPage() {
   const [responseStatus, setResponseStatus] = useState<number>(0)

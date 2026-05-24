@@ -1,5 +1,6 @@
 'use client'
 
+import { API_URL } from '@/components/constants/api'
 import RequestGenericError from '@/components/molecules/RequestGenericError'
 import RequestSuccess from '@/components/molecules/RequestSuccess'
 import UnauthorizedError from '@/components/molecules/UnauthorizedError'
@@ -7,8 +8,6 @@ import PageTemplate from '@/components/pages/PageTemplate'
 import { UnblockUserTemplate } from '@/components/templates/UnblockUserTemplate'
 import useFetcher from '@/components/utils/useFetcher'
 import { useState } from 'react'
-
-const API_URL = 'https://pet-found-backend.up.railway.app'
 
 export default function UnblockUserPage() {
   const [responseStatus, setResponseStatus] = useState<number>(0)

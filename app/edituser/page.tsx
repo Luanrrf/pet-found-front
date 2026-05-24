@@ -9,8 +9,7 @@ import useFetcher from '@/components/utils/useFetcher'
 import Swal from 'sweetalert2'
 
 import { useState } from 'react'
-
-const API_URL = 'https://pet-found-backend.up.railway.app'
+import { API_URL } from '@/components/constants/api'
 
 export default function EditUserPage() {
   const [responseStatus, setResponseStatus] = useState<number>(0)

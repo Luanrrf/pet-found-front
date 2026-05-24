@@ -4,7 +4,7 @@ import { WelcomeTemplate } from '@/components/templates/WelcomeTemplate'
 export default function Home() {
   return (
     <PageTemplate>
-      <WelcomeTemplate />;
+      <WelcomeTemplate />
     </PageTemplate>
   )
 }

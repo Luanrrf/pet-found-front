@@ -1,4 +1,5 @@
 'use client'
+
 import { useGeolocation } from '@/utils/useGeolocation'
 
 export default function TitleWithLocation() {
@@ -9,20 +10,18 @@ export default function TitleWithLocation() {
   let cityName = ''
 
   if (error) cityName = 'Não Informado'
-  if (location?.city) cityName = location.city
+
+  if (location?.city) {
+    cityName = `${location.city}, RJ`
+  }
 
   return (
-    <div>
-      <h2
-        className="m-0 text-[#EF7E06] font-inter text-[16px] font-semibold leading-normal flex"
-        style={{ margin: '0' }}
-      >
+    <div className="mb-6">
+      <h2 className="text-[#EF7E06] text-[13px] font-semibold leading-none">
         Localização
       </h2>
-      <h1
-        className="m-0 text-[#333] font-inter text-[32px] font-bold leading-normal"
-        style={{ margin: '0 0 22px' }}
-      >
+
+      <h1 className="text-[#333] text-[34px] font-bold leading-[38px] mt-1">
         {cityName}
       </h1>
     </div>

@@ -12,10 +12,10 @@ interface Props {
 export function RegisterForm({ onSubmit }: Props) {
   const [error, setError] = useState('')
 
-  async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+  async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
     setError('')
-    onSubmit(e)
+    onSubmit(event)
   }
 
   return (

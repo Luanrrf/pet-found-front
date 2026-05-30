@@ -10,7 +10,7 @@ const PageTemplate = ({
   return (
     <main>
       {hasDefaultHeader && <Header />}
-      <section>{children}</section>
+      <section className="flex flex-col items-center">{children}</section>
     </main>
   )
 }

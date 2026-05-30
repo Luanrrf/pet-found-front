@@ -43,7 +43,7 @@ export default function LoginPage() {
       localStorage.setItem('user', JSON.stringify(result.user))
       localStorage.setItem('user_ip', ipData.ip)
 
-      window.location.href = '/animallistpage'
+      window.location.href = '/pets'
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Erro ao fazer login'
 

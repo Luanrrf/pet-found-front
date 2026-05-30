@@ -20,7 +20,7 @@ export default function LoginTemplate({
   handleLogin,
 }: Props) {
   return (
-    <div className="min-h-screen px-5 py-6">
+    <div className="px-5 py-6">
       <div className="w-full max-w-[390px] mx-auto">
         <div className="mt-28">
           <h2 className="text-[52px] font-bold text-[#333] text-center mb-14">

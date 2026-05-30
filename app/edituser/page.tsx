@@ -5,14 +5,14 @@ import RequestSuccess from '@/components/molecules/RequestSuccess'
 import UnauthorizedError from '@/components/molecules/UnauthorizedError'
 import PageTemplate from '@/components/pages/PageTemplate'
 import { EditUserTemplate } from '@/components/templates/EditUserTemplate'
-import useFetcher from '@/components/utils/useFetcher'
+import useFetcher, { FetcherResponse } from '@/components/utils/useFetcher'
 import Swal from 'sweetalert2'
 
 import { useState } from 'react'
 import { API_URL } from '@/components/constants/api'
 
 export default function EditUserPage() {
-  const [responseStatus, setResponseStatus] = useState<number>(0)
+  const [response, setResponse] = useState<FetcherResponse | undefined>()
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -23,7 +23,7 @@ export default function EditUserPage() {
     const email = formData.get('email')
     const password = formData.get('password')
 
-    await useFetcher({
+    const request = await useFetcher({
       url: `${API_URL}/user`,
       method: 'PATCH',
       body: {
@@ -32,8 +32,9 @@ export default function EditUserPage() {
         email,
         password,
       },
-      setState: setResponseStatus,
     })
+
+    setResponse(request)
   }
 
   async function handleDelete() {
@@ -49,21 +50,24 @@ export default function EditUserPage() {
 
     if (!confirm.isConfirmed) return
 
-    await useFetcher({
+    const request = await useFetcher({
       url: `${API_URL}/user/deactivate`,
       method: 'PATCH',
-      setState: setResponseStatus,
     })
+
+    setResponse(request)
   }
+
+  const status = response?.status ?? 0
 
   return (
     <PageTemplate hasDefaultHeader>
-      {responseStatus === 0 && (
+      {status === 0 && (
         <EditUserTemplate onSubmit={handleSubmit} onDelete={handleDelete} />
       )}
-      {responseStatus === 401 && <UnauthorizedError />}
-      {responseStatus > 401 && <RequestGenericError />}
-      {responseStatus >= 200 && responseStatus < 300 && <RequestSuccess />}
+      {status === 401 && <UnauthorizedError message={response?.message} />}
+      {status > 401 && <RequestGenericError message={response?.message} />}
+      {status >= 200 && status < 300 && <RequestSuccess />}
     </PageTemplate>
   )
 }

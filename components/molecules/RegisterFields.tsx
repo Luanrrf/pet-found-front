@@ -50,6 +50,14 @@ export function RegisterFields() {
         name="confirmPassword"
         required
       />
+
+      <Input
+        type="cellphone"
+        placeholder="Insira seu celular"
+        id="cellphone"
+        name="cellphone"
+        required
+      />
     </div>
   )
 }

@@ -1,56 +1,18 @@
-interface Props {
-  className?: string
-}
-
-export default function FilterIcon({ className = 'h-5 w-5' }: Props) {
+export default function FilterIcon() {
   return (
     <svg
-      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      width="35"
+      height="22"
+      viewBox="0 0 35 22"
       fill="none"
-      className={className}
-      aria-hidden="true"
     >
       <path
-        d="M4 7h16"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M4 12h16"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M4 17h16"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <circle
-        cx="9"
-        cy="7"
-        r="2"
-        fill="white"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <circle
-        cx="15"
-        cy="12"
-        r="2"
-        fill="white"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <circle
-        cx="11"
-        cy="17"
-        r="2"
-        fill="white"
-        stroke="currentColor"
-        strokeWidth="2"
+        d="M33.5 16.4366H11.7953M4.13405 16.4366H1M4.13405 16.4366C4.13405 15.4209 4.53754 14.4468 5.25576 13.7286C5.97397 13.0104 6.94808 12.6069 7.96378 12.6069C8.97949 12.6069 9.9536 13.0104 10.6718 13.7286C11.39 14.4468 11.7935 15.4209 11.7935 16.4366C11.7935 17.4523 11.39 18.4264 10.6718 19.1446C9.9536 19.8629 8.97949 20.2664 7.96378 20.2664C6.94808 20.2664 5.97397 19.8629 5.25576 19.1446C4.53754 18.4264 4.13405 17.4523 4.13405 16.4366ZM33.5 4.82973H28.0453M20.3841 4.82973H1M20.3841 4.82973C20.3841 3.81402 20.7875 2.83992 21.5058 2.1217C22.224 1.40349 23.1981 1 24.2138 1C24.7167 1 25.2147 1.09906 25.6794 1.29152C26.144 1.48398 26.5662 1.76608 26.9218 2.1217C27.2774 2.47733 27.5595 2.89951 27.752 3.36416C27.9445 3.8288 28.0435 4.3268 28.0435 4.82973C28.0435 5.33266 27.9445 5.83066 27.752 6.2953C27.5595 6.75995 27.2774 7.18213 26.9218 7.53776C26.5662 7.89338 26.144 8.17548 25.6794 8.36794C25.2147 8.5604 24.7167 8.65946 24.2138 8.65946C23.1981 8.65946 22.224 8.25597 21.5058 7.53776C20.7875 6.81954 20.3841 5.84544 20.3841 4.82973Z"
+        stroke="#EF7E06"
+        stroke-width="2"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
       />
     </svg>
   )

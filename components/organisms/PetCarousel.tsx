@@ -70,7 +70,7 @@ export default function PetCarousel() {
         onClick={() => router.push('/filters')}
         className="mt-10 flex h-14 w-14 items-center justify-center rounded-full bg-white text-[#EF7E06] shadow-lg"
       >
-        <FilterIcon className="h-7 w-7" />
+        <FilterIcon />
       </IconButton>
     </div>
   )

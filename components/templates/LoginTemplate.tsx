@@ -2,6 +2,7 @@
 
 import LoginForm from '@/components/molecules/LoginForm'
 import AgreementModal from '@/components/molecules/AgreementModal'
+import { useState } from 'react'
 
 interface Props {
   loading: boolean
@@ -19,8 +20,11 @@ export default function LoginTemplate({
   setAgreementOpen,
   handleLogin,
 }: Props) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
   return (
-    <div className="min-h-screen px-5 py-6">
+    <div className="px-5 py-6">
       <div className="w-full max-w-[390px] mx-auto">
         <div className="mt-28">
           <h2 className="text-[52px] font-bold text-[#333] text-center mb-14">
@@ -31,14 +35,19 @@ export default function LoginTemplate({
             loading={loading}
             error={error}
             setAgreementOpen={setAgreementOpen}
-            handleLogin={handleLogin}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
           />
         </div>
       </div>
 
       <AgreementModal
         open={agreementOpen}
-        onClose={() => setAgreementOpen(false)}
+        handleLogin={handleLogin}
+        email={email}
+        password={password}
       />
     </div>
   )

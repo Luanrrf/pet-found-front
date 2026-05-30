@@ -39,11 +39,13 @@ export default function LoginPage() {
 
       const result = await response.json()
 
-      localStorage.setItem('token', result.access_token)
-      localStorage.setItem('user', JSON.stringify(result.user))
-      localStorage.setItem('user_ip', ipData.ip)
+      document.cookie = `token=${result.access_token}; path=/; max-age=2592000`
+      document.cookie = `user=${encodeURIComponent(
+        JSON.stringify(result.user)
+      )}; path=/; max-age=2592000`
+      document.cookie = `user_ip=${ipData.ip}; path=/; max-age=2592000`
 
-      window.location.href = '/animallistpage'
+      window.location.href = '/pets'
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Erro ao fazer login'
 

@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
 
 interface Props {
@@ -67,9 +68,10 @@ export default function RegisterPetForm({ onSubmit }: Props) {
           className="w-full h-[180px] border border-dashed border-[#BDBDBD] rounded-md flex items-center justify-center cursor-pointer overflow-hidden bg-white"
         >
           {preview ? (
-            <img
+            <Image
               src={preview}
               alt="Preview"
+              width={100}
               className="w-full h-full object-cover"
             />
           ) : (

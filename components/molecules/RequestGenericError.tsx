@@ -11,7 +11,7 @@ export default function RequestGenericError({
   useEffect(() => {
     Swal.fire({
       icon: 'error',
-      title: 'Erro na requisição',
+      title: 'Erro ao processar sua solicitação',
       text: message,
       confirmButtonColor: '#d33',
       confirmButtonText: 'OK',

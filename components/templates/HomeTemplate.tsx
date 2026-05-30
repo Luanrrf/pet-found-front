@@ -2,9 +2,10 @@
 
 import React from 'react'
 import Logo from '../atoms/Logo'
-import { WelcomeActions } from '../organisms/WelcomeActions'
+import { HomeActions } from '../organisms/HomeActions'
+import { FetcherResponse } from '../utils/useFetcher'
 
-export function WelcomeTemplate() {
+export function HomeTemplate({ user }: { user: FetcherResponse }) {
   return (
     <div className="relative min-h-[calc(100vh-40px)] flex flex-col items-center justify-center">
       <Logo
@@ -14,10 +15,7 @@ export function WelcomeTemplate() {
         width={280}
         className="absolute top-[60px] absolute left-1/2 -translate-x-1/2"
       />
-      <h1 className="text-4xl font-bold text-orange-400 mb-[60px] text-center text-shadow-lg">
-        Bem-Vindo(a)!
-      </h1>
-      <WelcomeActions />
+      <HomeActions user={user} />
     </div>
   )
 }

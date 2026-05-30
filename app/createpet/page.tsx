@@ -7,12 +7,13 @@ import PageTemplate from '@/components/pages/PageTemplate'
 import RegisterPetForm from '@/components/organisms/RegisterPetForm'
 import WarningModal from '@/components/molecules/WarningModal'
 import { API_URL } from '@/components/constants/api'
+import { getCookie } from '@/components/utils/getCookie'
 
 export default function CreatePetPage() {
   const [open, setOpen] = useState(true)
 
   async function handleCreatePet(formData: FormData) {
-    const token = localStorage.getItem('token')
+    const token = getCookie('token')
 
     const response = await fetch(`${API_URL}/animal`, {
       method: 'POST',

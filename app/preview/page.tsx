@@ -1,12 +1,10 @@
-import TitleWithLocation from '@/components/molecules/TitleWithLocation'
+import PreviewPetsTemplate from '@/components/templates/PreviewPetsTemplate'
 import PageTemplate from '@/components/pages/PageTemplate'
 
-export default function PreviewPage() {
+export default function PetPage() {
   return (
     <PageTemplate hasDefaultHeader>
-      <div>
-        <TitleWithLocation />
-      </div>
+      <PreviewPetsTemplate />
     </PageTemplate>
   )
 }

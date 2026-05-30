@@ -2,16 +2,16 @@
 
 import RequestGenericError from '@/components/molecules/RequestGenericError'
 import RequestSuccess from '@/components/molecules/RequestSuccess'
-import UnauthorizedError from '@/components/molecules/UnauthorizedError'
 import PageTemplate from '@/components/pages/PageTemplate'
 import { RegisterTemplate } from '@/components/templates/RegisterTemplate'
 import useFetcher from '@/components/utils/useFetcher'
+import type { FetcherResponse } from '@/components/utils/useFetcher'
 import { useState } from 'react'
 import { validateCPF } from '@/utils/ValidateCpf'
 import { API_URL } from '@/components/constants/api'
 
 export default function RegisterPage() {
-  const [responseStatus, setResponseStatus] = useState<number>(0)
+  const [response, setResponse] = useState<FetcherResponse | undefined>()
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -21,6 +21,7 @@ export default function RegisterPage() {
     const cpf = formData.get('cpf')
     const name = formData.get('name')
     const email = formData.get('email')
+    const cellphone = formData.get('cellphone')
     const password = formData.get('password')
     const confirmPassword = formData.get('confirmPassword')
     const agree = formData.get('agree')
@@ -40,26 +41,29 @@ export default function RegisterPage() {
       return
     }
 
-    await useFetcher({
+    const request = await useFetcher({
       url: `${API_URL}/user`,
       method: 'POST',
       body: {
         cpf,
         name,
         email,
+        cellphone,
         password,
       },
-      setState: setResponseStatus,
     })
+
+    setResponse(request)
   }
+
+  const status = response?.status ?? 0
 
   return (
     <PageTemplate hasDefaultHeader>
       <RegisterTemplate onSubmit={handleSubmit} />
 
-      {responseStatus === 401 && <UnauthorizedError />}
-      {responseStatus > 401 && <RequestGenericError />}
-      {responseStatus >= 200 && responseStatus < 300 && <RequestSuccess />}
+      {status > 401 && <RequestGenericError message={response?.message} />}
+      {status >= 200 && status < 300 && <RequestSuccess />}
     </PageTemplate>
   )
 }

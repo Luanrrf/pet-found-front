@@ -26,16 +26,9 @@ const PageContainer = ({
   return (
     <div
       ref={containerRef}
+      className="rounded-t-[20px] bg-white shadow-[0_0_4px_0_rgba(0,0,0,0.25)] ml-[-20px] md:ml-0 mb-[-20px] md:mb-0 w-[calc(100%+40px)] px-5 py-8 relative"
       style={{
-        borderRadius: '20px 20px 0 0',
-        background: 'white',
-        boxShadow: '0 0 4px 0 rgba(0, 0, 0, 0.25)',
-        marginLeft: '-20px',
-        marginBottom: '-20px',
-        width: 'calc(100% + 40px)',
         minHeight: `calc(100vh - ${positionY}px)`,
-        padding: '32px 20px',
-        position: 'relative',
         ...props,
       }}
     >

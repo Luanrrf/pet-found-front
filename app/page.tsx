@@ -1,10 +1,12 @@
+'use client;'
+
 import PageTemplate from '@/components/pages/PageTemplate'
-import { WelcomeTemplate } from '@/components/templates/WelcomeTemplate'
+import FirstScreenTemplate from '@/components/templates/FirstScreenTemplate'
 
 export default function Home() {
   return (
     <PageTemplate>
-      <WelcomeTemplate />
+      <FirstScreenTemplate />
     </PageTemplate>
   )
 }

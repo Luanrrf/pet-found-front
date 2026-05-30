@@ -59,7 +59,7 @@ export function PDPTemplate() {
   console.log({ selectedImage, allImages, imagesWithoutMain })
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 bg-[#FEE7B8] rounded-[18px] p-4">
       <div className="flex flex-col gap-1">
         <PDPMainImage src={selectedImage || ''} alt={`${productContext.id}`} />
         {imagesWithoutMain.length > 0 && (

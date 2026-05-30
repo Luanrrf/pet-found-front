@@ -5,11 +5,17 @@ interface LogoProps {
   alt: string
   width?: number
   height?: number
+  className?: string
 }
 
 const Logo = (props: LogoProps) => {
   return (
-    <Image {...props} width={props.width ?? 193} height={props.height ?? 64} />
+    <Image
+      {...props}
+      width={props.width ?? 193}
+      height={props.height ?? 64}
+      className={`m-auto ${props.className}`}
+    />
   )
 }
 

@@ -3,12 +3,15 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import IconButton from '@/components/atoms/IconButton'
-import FilterIcon from '@/components/atoms/FilterIcon'
-import { animals } from '@/utils/animalData'
+import Link from 'next/link'
+import Image from 'next/image'
+import { useFilterContext } from '../contexts/FilterContext'
 
 export default function PetCarousel() {
   const router = useRouter()
   const [current, setCurrent] = useState(0)
+  const { pageContext } = useFilterContext()
+  const { animals } = pageContext
 
   function previousPet() {
     if (current > 0) {
@@ -22,35 +25,53 @@ export default function PetCarousel() {
     }
   }
 
-  function openAnimalPage() {
-    const token = localStorage.getItem('token')
-    const page = token ? 'animalpagelogged' : 'animalpagenotlogged'
+  const actualAnimal = animals[current]
 
-    router.push(`/${page}?pet=${animals[current].id}`)
-  }
+  if (!actualAnimal || !actualAnimal.images?.[0]?.url) return
+
+  const animalSrc = actualAnimal.images?.[0]?.url
 
   return (
     <div className="relative flex flex-col items-center">
       <div className="relative flex w-full justify-center">
-        <IconButton
-          label="Abrir página do animal"
-          onClick={openAnimalPage}
-          className="relative z-10"
-        >
-          <img
-            src={animals[current].image}
+        <Link className="z-10" href={`/pet/${actualAnimal.id}`}>
+          <Image
+            src={animalSrc}
             alt="Pet"
-            className="h-[300px] w-[220px] rounded-[24px] object-cover"
+            width={258}
+            height={365}
+            className="max-w-[258px] w-full aspect-[258/365] object-cover rounded-[20px] relative z-10 border-1 border-white"
           />
-        </IconButton>
+        </Link>
+        <Image
+          src={'/petpage-shadow.png'}
+          alt="Pet"
+          width={350}
+          height={424}
+          className="w-full aspect-[350/424] object-cover absolute top-1/2 left-1/2 -translate-1/2 max-w-[350px]"
+        />
 
         {current > 0 && (
           <IconButton
             label="Animal anterior"
             onClick={previousPet}
-            className="absolute left-0 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-3xl font-bold text-[#EF7E06] shadow-md"
+            className="absolute -left-4 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-3xl font-bold text-[#EF7E06]"
           >
-            ‹
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="13"
+              height="22"
+              viewBox="0 0 13 22"
+              fill="none"
+              className="-scale-x-100"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M11.8686 11.8686L2.37338 21.3638L0 18.9904L8.3085 10.6819L0 2.37338L2.37338 0L11.8686 9.49519C12.1832 9.80995 12.36 10.2368 12.36 10.6819C12.36 11.127 12.1832 11.5538 11.8686 11.8686Z"
+                fill="#EF7E06"
+              />
+            </svg>
           </IconButton>
         )}
 
@@ -58,19 +79,37 @@ export default function PetCarousel() {
           <IconButton
             label="Próximo animal"
             onClick={nextPet}
-            className="absolute right-0 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-3xl font-bold text-[#EF7E06] shadow-md"
+            className="absolute -right-4 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-3xl font-bold text-[#EF7E06]"
           >
-            ›
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="13"
+              height="22"
+              viewBox="0 0 13 22"
+              fill="none"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M11.8686 11.8686L2.37338 21.3638L0 18.9904L8.3085 10.6819L0 2.37338L2.37338 0L11.8686 9.49519C12.1832 9.80995 12.36 10.2368 12.36 10.6819C12.36 11.127 12.1832 11.5538 11.8686 11.8686Z"
+                fill="#EF7E06"
+              />
+            </svg>
           </IconButton>
         )}
       </div>
 
       <IconButton
         label="Abrir filtros"
-        onClick={() => router.push('/filters')}
-        className="mt-10 flex h-14 w-14 items-center justify-center rounded-full bg-white text-[#EF7E06] shadow-lg"
+        onClick={() => router.push('/createpet')}
+        className="mt-10 flex items-center justify-center"
       >
-        <FilterIcon className="h-7 w-7" />
+        <Image
+          src="/createAnimalIcon.png"
+          alt="Ícone de adicionar animal"
+          width={100}
+          height={100}
+        />
       </IconButton>
     </div>
   )

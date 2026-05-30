@@ -6,11 +6,11 @@ import RequestSuccess from '@/components/molecules/RequestSuccess'
 import UnauthorizedError from '@/components/molecules/UnauthorizedError'
 import PageTemplate from '@/components/pages/PageTemplate'
 import { BlockUserTemplate } from '@/components/templates/BlockUserTemplate'
-import useFetcher from '@/components/utils/useFetcher'
+import useFetcher, { FetcherResponse } from '@/components/utils/useFetcher'
 import { useState } from 'react'
 
 export default function BlockUserPage() {
-  const [responseStatus, setResponseStatus] = useState<number>(0)
+  const [response, setResponse] = useState<FetcherResponse | undefined>()
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -23,25 +23,28 @@ export default function BlockUserPage() {
     )
 
     if (!userResult.ok) {
-      setResponseStatus(userResult.status)
+      setResponse({ ...response, status: userResult.status })
       return
     }
 
     const user = await userResult.json()
 
-    await useFetcher({
+    const request = await useFetcher({
       url: `${API_URL}/user/block/${user.id}`,
       method: 'PATCH',
-      setState: setResponseStatus,
     })
+
+    setResponse(request)
   }
+
+  const status = response?.status ?? 0
 
   return (
     <PageTemplate hasDefaultHeader>
-      {responseStatus === 0 && <BlockUserTemplate onSubmit={handleSubmit} />}
-      {responseStatus === 401 && <UnauthorizedError />}
-      {responseStatus > 401 && <RequestGenericError />}
-      {responseStatus >= 200 && responseStatus < 300 && <RequestSuccess />}
+      {status === 0 && <BlockUserTemplate onSubmit={handleSubmit} />}
+      {status === 401 && <UnauthorizedError message={response?.message} />}
+      {status > 401 && <RequestGenericError message={response?.message} />}
+      {status >= 200 && status < 300 && <RequestSuccess />}
     </PageTemplate>
   )
 }

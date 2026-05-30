@@ -32,7 +32,7 @@ export default function RootLayout({
           padding: '20px 20px 0',
           background:
             'linear-gradient(180deg, var(--Tertiary, #FEE7B8) 30%, #FFF 70%)',
-          minHeight: 'calc(100vh - 20px)',
+          minHeight: '100vh',
         }}
       >
         {children}

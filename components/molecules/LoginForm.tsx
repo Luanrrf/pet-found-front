@@ -1,35 +1,33 @@
 'use client'
 
-import { useState } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/navigation'
 
 interface Props {
   loading: boolean
   error: string
   setAgreementOpen: (value: boolean) => void
-  handleLogin: (data: { email: string; password: string }) => void
+  email: string
+  setEmail: Dispatch<SetStateAction<string>>
+  password: string
+  setPassword: Dispatch<SetStateAction<string>>
 }
 
 export default function LoginForm({
   loading,
   error,
   setAgreementOpen,
-  handleLogin,
+  email,
+  setEmail,
+  password,
+  setPassword,
 }: Props) {
   const router = useRouter()
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault()
 
     setAgreementOpen(true)
-
-    handleLogin({
-      email,
-      password,
-    })
   }
 
   return (

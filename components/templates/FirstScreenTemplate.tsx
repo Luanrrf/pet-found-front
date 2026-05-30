@@ -1,14 +1,31 @@
-import TitleWithLocation from '../molecules/TitleWithLocation'
-import PetCarousel from '../organisms/PetCarousel'
+'use client'
 
-export default function FirstScreenTemplate() {
-  return (
-    <div className="bg-white min-h-screen px-5 py-5">
-      <TitleWithLocation />
+import React, { useEffect, useState } from 'react'
+import { WelcomeTemplate } from './WelcomeTemplate'
+import useAuthentication from '../utils/useAuthentication'
+import { FetcherResponse } from '../utils/useFetcher'
+import { HomeTemplate } from './HomeTemplate'
 
-      <div className="mt-8">
-        <PetCarousel />
-      </div>
-    </div>
-  )
+const FirstScreenTemplate = () => {
+  const [user, setUser] = useState<FetcherResponse | null>(null)
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const req = await useAuthentication()
+
+      if (req) {
+        setUser(req)
+      }
+    }
+
+    loadUser()
+  }, [])
+
+  if (!user || !user.userId) {
+    return <WelcomeTemplate />
+  }
+
+  return <HomeTemplate user={user} />
 }
+
+export default FirstScreenTemplate

@@ -2,6 +2,9 @@ export interface FetcherProps {
   url: string
   method?: string
   body?: object
+  headers?: {
+    [key: string]: string
+  }
 }
 
 export interface FetcherResponse {
@@ -14,11 +17,13 @@ const useFetcher = async ({
   url,
   method,
   body,
+  headers,
 }: FetcherProps): Promise<FetcherResponse> => {
   const response = await fetch(url, {
     method: method || 'GET',
     headers: {
       'Content-Type': 'application/json',
+      ...headers,
     },
     body: body ? JSON.stringify(body) : null,
   })

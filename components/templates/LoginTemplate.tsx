@@ -25,9 +25,9 @@ export default function LoginTemplate({
 
   return (
     <div className="px-5 py-6">
-      <div className="w-full max-w-[390px] mx-auto">
-        <div className="mt-28">
-          <h2 className="text-[52px] font-bold text-[#333] text-center mb-14">
+      <div className="w-full max-w-[390px] mx-auto flex items-center justify-center h-full flex-1">
+        <div className="bg-white rounded-xl p-5">
+          <h2 className="text-4xl font-bold text-orange-400 mb-[60px] text-center text-shadow-lg">
             Entrar
           </h2>
 

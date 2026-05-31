@@ -3,9 +3,10 @@ import React from 'react'
 interface ModalProps {
   children: React.ReactNode
   closeModal: () => void
+  hasCloseButton?: boolean
 }
 
-const Modal = ({ children, closeModal }: ModalProps) => {
+const Modal = ({ children, closeModal, hasCloseButton = true }: ModalProps) => {
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center">
       <button
@@ -22,12 +23,14 @@ const Modal = ({ children, closeModal }: ModalProps) => {
       >
         <div className="flex flex-col overflow-auto">{children}</div>
 
-        <button
-          className="cursor-pointer bg-[var(--primary)] w-full max-w-[260px] py-[10px] m-auto text-white rounded-xl px-4 hover:brightness-80 mt-4"
-          onClick={closeModal}
-        >
-          Fechar
-        </button>
+        {hasCloseButton && (
+          <button
+            className="cursor-pointer bg-[var(--primary)] w-full max-w-[260px] py-[10px] m-auto text-white rounded-xl px-4 hover:brightness-80 mt-4"
+            onClick={closeModal}
+          >
+            Fechar
+          </button>
+        )}
       </div>
     </div>
   )

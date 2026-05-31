@@ -26,7 +26,7 @@ const PageContainer = ({
   return (
     <div
       ref={containerRef}
-      className="rounded-t-[20px] bg-white shadow-[0_0_4px_0_rgba(0,0,0,0.25)] ml-[-20px] md:ml-0 mb-[-20px] md:mb-0 w-[calc(100%+40px)] px-5 py-8 relative"
+      className="rounded-t-[20px] bg-white shadow-[0_0_4px_0_rgba(0,0,0,0.25)] ml-[-20px] md:ml-0 mb-[-20px] md:mb-0 max-lg:w-[calc(100%+40px)] lg:w-full px-5 py-8 relative lg:max-w-[1200px]"
       style={{
         minHeight: `calc(100vh - ${positionY}px)`,
         ...props,

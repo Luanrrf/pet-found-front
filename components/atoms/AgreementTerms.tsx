@@ -167,7 +167,7 @@ export default function AgreementTerms() {
           {sections.map((section) => (
             <section
               key={section.id}
-              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4"
             >
               <h2 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
                 <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-orange-100 text-orange-600 text-sm font-bold flex-shrink-0">
@@ -212,7 +212,7 @@ export default function AgreementTerms() {
             </section>
           ))}
 
-          <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
             <h2 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
               <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-orange-100 text-orange-600 text-sm font-bold flex-shrink-0">
                 15

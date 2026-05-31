@@ -9,11 +9,36 @@ import WarningModal from '@/components/molecules/WarningModal'
 import { API_URL } from '@/components/constants/api'
 import { getCookie } from '@/components/utils/getCookie'
 
+async function uploadImage(file: File | null): Promise<{
+  filename: string
+  path: string
+  url: string
+} | null> {
+  if (!file) return null
+
+  const token = getCookie('token')
+  const formData = new FormData()
+  formData.append('image', file)
+
+  const imageUrl = await fetch(`${API_URL}/animal/upload`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  }).then((res) => res.json())
+
+  return imageUrl
+}
+
 export default function CreatePetPage() {
   const [open, setOpen] = useState(true)
+  const [file, setFile] = useState<File | null>(null)
 
   async function handleCreatePet(formData: FormData) {
     const token = getCookie('token')
+
+    const imageUrl = await uploadImage(file)
 
     const response = await fetch(`${API_URL}/animal`, {
       method: 'POST',
@@ -24,18 +49,15 @@ export default function CreatePetPage() {
       },
 
       body: JSON.stringify({
+        name: DOMPurify.sanitize(formData.get('name') as string),
         type: DOMPurify.sanitize(formData.get('type') as string),
-
+        breed: DOMPurify.sanitize(formData.get('breed') as string),
         size: DOMPurify.sanitize(formData.get('size') as string),
-
         gender: DOMPurify.sanitize(formData.get('gender') as string),
-
-        image: DOMPurify.sanitize(formData.get('image') as string),
-
+        images: [imageUrl?.url],
         observations: DOMPurify.sanitize(
           formData.get('observations') as string
         ),
-
         is_adopted: false,
       }),
     })
@@ -54,7 +76,11 @@ export default function CreatePetPage() {
           perdido?
         </h1>
 
-        <RegisterPetForm onSubmit={handleCreatePet} />
+        <RegisterPetForm
+          onSubmit={handleCreatePet}
+          file={file}
+          setFile={setFile}
+        />
 
         <WarningModal open={open} onClose={() => setOpen(false)} />
       </div>

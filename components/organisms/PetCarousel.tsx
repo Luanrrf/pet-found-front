@@ -34,7 +34,7 @@ export default function PetCarousel() {
   return (
     <div className="relative flex flex-col items-center">
       <div className="relative flex w-full justify-center">
-        <Link className="z-10" href={`/pet/${actualAnimal.id}`}>
+        <Link className="z-10" href="/pets">
           <Image
             src={animalSrc}
             alt="Pet"

@@ -19,9 +19,6 @@ export default function LoginPage() {
       const sanitizedEmail = DOMPurify.sanitize(data.email)
       const sanitizedPassword = DOMPurify.sanitize(data.password)
 
-      const ipResponse = await fetch('https://api.ipify.org?format=json')
-      const ipData = await ipResponse.json()
-
       const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -40,12 +37,8 @@ export default function LoginPage() {
       const result = await response.json()
 
       document.cookie = `token=${result.access_token}; path=/; max-age=2592000`
-      document.cookie = `user=${encodeURIComponent(
-        JSON.stringify(result.user)
-      )}; path=/; max-age=2592000`
-      document.cookie = `user_ip=${ipData.ip}; path=/; max-age=2592000`
 
-      window.location.href = '/pets'
+      window.location.href = '/'
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Erro ao fazer login'
 

@@ -15,7 +15,7 @@ export function WelcomeActions() {
           Registrar
         </Button>
       </Link>
-      <Link href="/pets" className="flex w-full">
+      <Link href="/preview" className="flex w-full">
         <Button className="bg-[var(--primary)] w-full max-w-[260px] py-[10px] m-auto text-white rounded-xl px-4 hover:brightness-80">
           Conhecer os Pets
         </Button>

@@ -56,8 +56,6 @@ export function PDPTemplate() {
     (image) => image.url !== selectedImage
   )
 
-  console.log({ selectedImage, allImages, imagesWithoutMain })
-
   return (
     <div className="flex flex-col gap-3 bg-[#FEE7B8] rounded-[18px] p-4">
       <div className="flex flex-col gap-1">

@@ -9,15 +9,15 @@ import { HomeTemplate } from './HomeTemplate'
 const FirstScreenTemplate = () => {
   const [user, setUser] = useState<FetcherResponse | null>(null)
 
-  useEffect(() => {
-    const loadUser = async () => {
-      const req = await useAuthentication()
+  const loadUser = async () => {
+    const req = await useAuthentication()
 
-      if (req) {
-        setUser(req)
-      }
+    if (req) {
+      setUser(req)
     }
+  }
 
+  useEffect(() => {
     loadUser()
   }, [])
 

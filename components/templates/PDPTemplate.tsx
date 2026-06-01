@@ -5,6 +5,7 @@ import { useProductContext } from '../contexts/ProductContext'
 import PDPInformations from '../organisms/PDPInformations'
 import { useState } from 'react'
 import PDPGalleryList from '../organisms/PDPGalleryList'
+import PDPContact from '../organisms/PDPContact'
 
 export function PDPTemplate() {
   const { productContext } = useProductContext()
@@ -26,13 +27,20 @@ export function PDPTemplate() {
     small: 'Pequeno',
     medium: 'Médio',
     large: 'Grande',
+    dog: 'Cachorro',
+    cat: 'Gato',
   }
 
   const informationsToShow = [
     { label: 'Nome', key: 'name' },
+    { label: 'Tipo', key: 'type' },
+    { label: 'Raça', key: 'breed' },
     { label: 'Gênero', key: 'gender' },
     { label: 'Tamanho', key: 'size' },
-    { label: 'Raça', key: 'breed' },
+    {
+      label: 'Observações (Vacinas ou outras informações sobre o animal)',
+      key: 'observations',
+    },
   ]
 
   const informations = informationsToShow
@@ -68,6 +76,7 @@ export function PDPTemplate() {
         )}
       </div>
       <PDPInformations informations={informations} />
+      <PDPContact />
     </div>
   )
 }

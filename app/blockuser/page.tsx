@@ -1,16 +1,34 @@
 'use client'
 
+import Loading from '@/components/atoms/Loading'
 import { API_URL } from '@/components/constants/api'
 import RequestGenericError from '@/components/molecules/RequestGenericError'
 import RequestSuccess from '@/components/molecules/RequestSuccess'
 import UnauthorizedError from '@/components/molecules/UnauthorizedError'
 import PageTemplate from '@/components/pages/PageTemplate'
 import { BlockUserTemplate } from '@/components/templates/BlockUserTemplate'
+import useAuthentication from '@/components/utils/useAuthentication'
 import useFetcher, { FetcherResponse } from '@/components/utils/useFetcher'
-import { useState } from 'react'
+import { redirect } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function BlockUserPage() {
   const [response, setResponse] = useState<FetcherResponse | undefined>()
+  const [user, setUser] = useState<FetcherResponse | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  const loadUser = async () => {
+    const req = await useAuthentication()
+
+    if (req) {
+      setUser(req)
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    loadUser()
+  }, [])
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -35,6 +53,14 @@ export default function BlockUserPage() {
     })
 
     setResponse(request)
+  }
+
+  if (loading) {
+    return <Loading />
+  }
+
+  if (!user || user.role !== 'admin') {
+    redirect('/unauthorized')
   }
 
   const status = response?.status ?? 0

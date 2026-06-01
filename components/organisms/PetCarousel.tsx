@@ -6,6 +6,7 @@ import IconButton from '@/components/atoms/IconButton'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useFilterContext } from '../contexts/FilterContext'
+import { Button } from '../atoms/Button'
 
 export default function PetCarousel() {
   const router = useRouter()
@@ -34,7 +35,7 @@ export default function PetCarousel() {
   return (
     <div className="relative flex flex-col items-center">
       <div className="relative flex w-full justify-center">
-        <Link className="z-10" href="/pets">
+        <Link className="z-10" href={`/pet/${actualAnimal.id}`}>
           <Image
             src={animalSrc}
             alt="Pet"
@@ -98,6 +99,12 @@ export default function PetCarousel() {
           </IconButton>
         )}
       </div>
+
+      <Link href="pets">
+        <Button className="bg-[var(--primary)] w-full max-w-[260px] py-[10px] m-auto text-white rounded-xl px-4 hover:brightness-80 mt-10">
+          Ver todos os animais
+        </Button>
+      </Link>
 
       <IconButton
         label="Abrir filtros"

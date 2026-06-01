@@ -10,7 +10,7 @@ export function FilterContainer({
 }: {
   setOpenFilter: Dispatch<SetStateAction<boolean>>
 }) {
-  const { pageContext, setPageContext } = useFilterContext()
+  const { pageContext } = useFilterContext()
 
   if (!pageContext) {
     return <Loader />
@@ -19,24 +19,29 @@ export function FilterContainer({
   return (
     <ModalFilter setOpenFilter={setOpenFilter}>
       <PetFilter
-        title="Sexo"
-        filterKey="gender"
-        options={[
-          { label: 'Macho', value: 'Male' },
-          { label: 'Fêmea', value: 'Female' },
-        ]}
-        pageContext={pageContext}
-        setPageContext={setPageContext}
-      />
-      <PetFilter
-        title="Tipo"
+        title="Animal"
         filterKey="type"
         options={[
           { label: 'Cachorro', value: 'Dog' },
           { label: 'Gato', value: 'Cat' },
         ]}
-        pageContext={pageContext}
-        setPageContext={setPageContext}
+      />
+      <PetFilter
+        title="Tamanho"
+        filterKey="size"
+        options={[
+          { label: 'Pequeno', value: 'Small' },
+          { label: 'Médio', value: 'Medium' },
+          { label: 'Grande', value: 'Large' },
+        ]}
+      />
+      <PetFilter
+        title="Gênero"
+        filterKey="gender"
+        options={[
+          { label: 'Macho', value: 'Male' },
+          { label: 'Fêmea', value: 'Female' },
+        ]}
       />
 
       <SendToFilteredPageButton

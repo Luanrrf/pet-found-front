@@ -18,6 +18,7 @@ export function ModalFilter({
       left="0"
       top="0"
       padding="32px"
+      height="100%"
     >
       <Button
         onClick={() => setOpenFilter(false)}

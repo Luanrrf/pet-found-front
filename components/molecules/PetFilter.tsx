@@ -1,5 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
-import { FilterPageContextProps } from '../contexts/FilterContext/types'
+import { useFilterContext } from '../contexts/FilterContext'
 
 type Option = {
   label: string
@@ -10,15 +9,13 @@ export default function PetFilter({
   title,
   filterKey,
   options,
-  pageContext,
-  setPageContext,
 }: {
   title: string
   filterKey: string
   options: Option[]
-  pageContext: FilterPageContextProps
-  setPageContext: Dispatch<SetStateAction<FilterPageContextProps>>
 }) {
+  const { pageContext, setPageContext } = useFilterContext()
+
   const handleChange = (value: string, checked: boolean) => {
     setPageContext((prev) => {
       const currentValues: string[] = prev.filters?.[filterKey] ?? []

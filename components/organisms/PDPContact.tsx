@@ -1,45 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import useAuthentication from '../utils/useAuthentication'
+import React, { useState } from 'react'
 import { Button } from '../atoms/Button'
-import { FetcherResponse } from '../utils/useFetcher'
 import Loading from '../atoms/Loading'
-import { useProductContext } from '../contexts/ProductContext'
-import useAnimalOwnerContact from '../utils/useAnimalOwnerContact'
+import useContact from '../utils/useContact'
+import ModalContactConfirmation from '../molecules/ModalContactConfirmation'
+import { formatPhone } from '../utils/formatPhone'
 
 const PDPContact = () => {
-  const [user, setUser] = useState<FetcherResponse | null>(null)
-  const [loading, setLoading] = useState(true)
   const [showInformation, setShowInformation] = useState(false)
-  const { productContext } = useProductContext()
-  const [userContact, setUserContact] = useState<string | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
-  const initRequests = async () => {
-    const firstRequest = await useAuthentication()
-    const secondRequest = await useAnimalOwnerContact(productContext?.id ?? 0)
-
-    setLoading(false)
-
-    if (!firstRequest || !secondRequest) {
-      return
-    }
-
-    const contact = secondRequest['cellphone']
-      ? String(secondRequest['cellphone'])
-      : null
-
-    setUser(firstRequest)
-    setUserContact(contact)
-  }
-
-  useEffect(() => {
-    initRequests()
-  }, [])
+  const { user, loading, userContact } = useContact()
 
   if (loading) {
     return <Loading />
   }
 
-  console.log('>>> productContext', productContext)
+  const hasUser = !user || user.status !== 401
 
   return (
     <div className="mt-6 rounded-2xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
@@ -47,7 +23,7 @@ const PDPContact = () => {
         Informações de Contato
       </h2>
 
-      {!user ? (
+      {!hasUser ? (
         <div className="rounded-xl border border-[#DBEAFE] bg-[#EFF6FF] p-4">
           <p className="text-sm leading-relaxed text-[#1E40AF]">
             Para proteger a privacidade do responsável pelo animal, os dados de
@@ -72,7 +48,7 @@ const PDPContact = () => {
           </div>
 
           {!showInformation ? (
-            <Button onClick={() => setShowInformation(true)}>
+            <Button onClick={() => setModalOpen(true)}>
               Visualizar contato
             </Button>
           ) : (
@@ -81,8 +57,16 @@ const PDPContact = () => {
                 Contato do responsável
               </p>
 
-              <div className="mt-2 text-base text-[#111827]">{userContact}</div>
+              <div className="mt-2 text-base text-[#111827]">
+                {formatPhone(userContact)}
+              </div>
             </div>
+          )}
+          {modalOpen && (
+            <ModalContactConfirmation
+              setModalState={setModalOpen}
+              setShowInformation={setShowInformation}
+            />
           )}
         </div>
       )}

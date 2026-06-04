@@ -2,12 +2,12 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import EditButton from '../atoms/EditIcon'
 import useMyAnimals from '../utils/useMyAnimals'
-import { FetcherResponse } from '../utils/useFetcher'
+import { FetcherResponse } from '../utils/fetcher'
 import { useProductContext } from '../contexts/ProductContext'
 import ModalAdoptionConfirmation from '../molecules/ModalAdoptionConfirmation'
 import Loading from '../atoms/Loading'
 
-function findAnimalById(data: FetcherResponse, animalId: number) {
+export function findAnimalById(data: FetcherResponse, animalId: number) {
   return Object.values(data).some(
     (item) =>
       typeof item === 'object' &&

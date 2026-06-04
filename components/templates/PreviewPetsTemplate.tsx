@@ -5,7 +5,7 @@ import Title from '../molecules/Title'
 
 export default function PreviewPetsTemplate() {
   return (
-    <div className="min-h-screen">
+    <div className="">
       <Title text="Um desses animais pode ser seu novo amigo" />
 
       <div className="mt-8">

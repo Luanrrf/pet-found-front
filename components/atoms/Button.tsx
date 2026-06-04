@@ -5,7 +5,6 @@ type ButtonProps = {
   onClick?: () => void
   className?: string
   type?: 'button' | 'submit' | 'reset'
-  color?: 'orange' | 'green' | 'blue' | 'red'
   emojiSrc?: string
   disabled?: boolean
 }
@@ -15,7 +14,7 @@ export function Button({
   onClick,
   disabled = false,
   type = 'button',
-  className = 'bg-orange-500 text-white rounded-xl px-4 py-2 hover:brightness-80',
+  className = 'bg-orange-500 text-white rounded-xl px-4 max-md:py-2 md:py-2 md:w-full hover:brightness-80',
 }: ButtonProps) {
   return (
     <button

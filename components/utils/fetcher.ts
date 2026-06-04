@@ -10,10 +10,12 @@ export interface FetcherProps {
 export interface FetcherResponse {
   status: number
   message?: string
+
+  reported_animals_ids?: number[]
   [key: string]: unknown
 }
 
-const useFetcher = async ({
+const fetcher = async ({
   url,
   method,
   body,
@@ -36,4 +38,4 @@ const useFetcher = async ({
   }
 }
 
-export default useFetcher
+export default fetcher

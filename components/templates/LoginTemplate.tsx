@@ -24,23 +24,21 @@ export default function LoginTemplate({
   const [password, setPassword] = useState('')
 
   return (
-    <div className="px-5 py-6">
-      <div className="w-full max-w-[390px] mx-auto flex items-center justify-center h-full flex-1">
-        <div className="bg-white rounded-xl p-5">
-          <h2 className="text-4xl font-bold text-orange-400 mb-[60px] text-center text-shadow-lg">
-            Entrar
-          </h2>
+    <>
+      <div className="w-full max-w-[600px] mx-auto h-full bg-white rounded-xl p-5 mt-[10vh] mb-[10vh]">
+        <h2 className="text-4xl font-bold text-orange-400 mb-[60px] text-center text-shadow-lg">
+          Entrar
+        </h2>
 
-          <LoginForm
-            loading={loading}
-            error={error}
-            setAgreementOpen={setAgreementOpen}
-            email={email}
-            setEmail={setEmail}
-            password={password}
-            setPassword={setPassword}
-          />
-        </div>
+        <LoginForm
+          loading={loading}
+          error={error}
+          setAgreementOpen={setAgreementOpen}
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+        />
       </div>
 
       <AgreementModal
@@ -48,7 +46,8 @@ export default function LoginTemplate({
         handleLogin={handleLogin}
         email={email}
         password={password}
+        setAgreementOpen={setAgreementOpen}
       />
-    </div>
+    </>
   )
 }

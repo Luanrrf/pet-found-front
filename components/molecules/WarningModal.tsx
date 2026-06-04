@@ -8,7 +8,7 @@ export default function WarningModal({ open, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-5">
-      <div className="bg-white rounded-2xl p-6 max-w-[350px] w-full">
+      <div className="bg-white rounded-2xl p-6 max-md:max-w-[350px] md:max-w-[800px] w-full">
         <h2 className="text-xl font-bold text-[#333] mb-4">Aviso Importante</h2>
 
         <p className="text-sm text-[#666] leading-6">

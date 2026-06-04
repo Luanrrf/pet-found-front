@@ -10,7 +10,10 @@ export function UnblockUserForm({
   onSubmit: FormEventHandler<HTMLFormElement> | undefined
 }) {
   return (
-    <form onSubmit={onSubmit} className="flex flex-col w-full max-w-xs gap-4">
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col w-full max-md:max-w-[350px] md:max-w-[800px] gap-4"
+    >
       <Input
         type="email"
         placeholder="E-mail"

@@ -3,6 +3,8 @@ import { Input } from '../atoms/Input'
 export function RegisterFields() {
   return (
     <div className="flex flex-col gap-4">
+      <Input type="text" placeholder="Nome" id="name" name="name" required />
+
       <Input
         type="text"
         placeholder="CPF"
@@ -25,13 +27,19 @@ export function RegisterFields() {
         }}
       />
 
-      <Input type="text" placeholder="Nome" id="name" name="name" required />
-
       <Input
         type="email"
         placeholder="E-mail"
         id="email"
         name="email"
+        required
+      />
+
+      <Input
+        type="cellphone"
+        placeholder="Insira seu celular"
+        id="cellphone"
+        name="cellphone"
         required
       />
 
@@ -48,14 +56,6 @@ export function RegisterFields() {
         placeholder="Confirme sua senha"
         id="confirmPassword"
         name="confirmPassword"
-        required
-      />
-
-      <Input
-        type="cellphone"
-        placeholder="Insira seu celular"
-        id="cellphone"
-        name="cellphone"
         required
       />
     </div>

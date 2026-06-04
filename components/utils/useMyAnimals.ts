@@ -2,7 +2,7 @@
 
 import { API_URL } from '../constants/api'
 import { getCookie } from './getCookie'
-import useFetcher from './useFetcher'
+import fetcher from './fetcher'
 
 const useMyAnimals = async () => {
   const token = getCookie('token')
@@ -10,7 +10,7 @@ const useMyAnimals = async () => {
 
   const url = `${API_URL}/animal/mine`
 
-  const animals = await useFetcher({
+  const animals = await fetcher({
     url,
     headers: {
       Authorization: `Bearer ${token}`,

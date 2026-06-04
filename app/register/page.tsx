@@ -4,8 +4,8 @@ import RequestGenericError from '@/components/molecules/RequestGenericError'
 import RequestSuccess from '@/components/molecules/RequestSuccess'
 import PageTemplate from '@/components/pages/PageTemplate'
 import { RegisterTemplate } from '@/components/templates/RegisterTemplate'
-import useFetcher from '@/components/utils/useFetcher'
-import type { FetcherResponse } from '@/components/utils/useFetcher'
+import fetcher from '@/components/utils/fetcher'
+import type { FetcherResponse } from '@/components/utils/fetcher'
 import { useState } from 'react'
 import { validateCPF } from '@/utils/ValidateCpf'
 import { API_URL } from '@/components/constants/api'
@@ -41,7 +41,7 @@ export default function RegisterPage() {
       return
     }
 
-    const request = await useFetcher({
+    const request = await fetcher({
       url: `${API_URL}/user`,
       method: 'POST',
       body: {

@@ -2,19 +2,20 @@
 
 import React, { useEffect, useState } from 'react'
 import { WelcomeTemplate } from './WelcomeTemplate'
-import useAuthentication from '../utils/useAuthentication'
-import { FetcherResponse } from '../utils/useFetcher'
+import getUserAuthentication from '../utils/getUserAuthentication'
+import { FetcherResponse } from '../utils/fetcher'
 import { HomeTemplate } from './HomeTemplate'
 import Loading from '../atoms/Loading'
 
 const FirstScreenTemplate = () => {
   const [user, setUser] = useState<FetcherResponse | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const loadUser = async () => {
-    const req = await useAuthentication()
+    const req = await getUserAuthentication()
 
     if (req) {
+      setLoading(true)
       setUser(req)
       setLoading(false)
     }

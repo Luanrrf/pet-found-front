@@ -4,6 +4,7 @@ import Loading from '../atoms/Loading'
 import useContact from '../utils/useContact'
 import ModalContactConfirmation from '../molecules/ModalContactConfirmation'
 import { formatPhone } from '../utils/formatPhone'
+import Link from 'next/link'
 
 const PDPContact = () => {
   const [showInformation, setShowInformation] = useState(false)
@@ -18,7 +19,7 @@ const PDPContact = () => {
   const hasUser = !user || user.status !== 401
 
   return (
-    <div className="mt-6 rounded-2xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
+    <div className="max-md:mt-6 rounded-2xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
       <h2 className="mb-2 text-xl font-semibold text-[#111827]">
         Informações de Contato
       </h2>
@@ -31,7 +32,9 @@ const PDPContact = () => {
           </p>
 
           <div className="mt-4">
-            <Button>Entrar na conta</Button>
+            <Button>
+              <Link href="/login">Entrar na conta</Link>
+            </Button>
           </div>
         </div>
       ) : (

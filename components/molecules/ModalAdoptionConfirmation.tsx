@@ -3,7 +3,7 @@ import { Button } from '../atoms/Button'
 import Modal from '../organisms/Modal'
 import { useProductContext } from '../contexts/ProductContext'
 import { getCookie } from '../utils/getCookie'
-import useFetcher from '../utils/useFetcher'
+import fetcher from '../utils/fetcher'
 
 const ModalAdoptionConfirmation = ({
   setModalState,
@@ -24,7 +24,7 @@ const ModalAdoptionConfirmation = ({
     const token = getCookie('token')
     if (!id || !token) return
 
-    const req = await useFetcher({
+    const req = await fetcher({
       url: `/api/animal/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,

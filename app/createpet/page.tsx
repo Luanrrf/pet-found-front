@@ -69,8 +69,8 @@ export default function CreatePetPage() {
 
   return (
     <PageTemplate hasDefaultHeader>
-      <div className="px-5 py-6 min-h-screen">
-        <h1 className="text-[#333] text-[32px] font-bold leading-[40px] mb-6">
+      <div className="pb-6 w-full">
+        <h1 className="text-[#333] max-md:text-[24px] md:text-[32px] font-bold leading-[40px] mb-6">
           Encontrou um <span className="text-[#EF7E06]">animal</span>
           <br />
           perdido?

@@ -7,20 +7,21 @@ import RequestSuccess from '@/components/molecules/RequestSuccess'
 import UnauthorizedError from '@/components/molecules/UnauthorizedError'
 import PageTemplate from '@/components/pages/PageTemplate'
 import { UnblockUserTemplate } from '@/components/templates/UnblockUserTemplate'
-import useAuthentication from '@/components/utils/useAuthentication'
-import useFetcher, { FetcherResponse } from '@/components/utils/useFetcher'
+import getUserAuthentication from '@/components/utils/getUserAuthentication'
+import fetcher, { FetcherResponse } from '@/components/utils/fetcher'
 import { redirect } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function UnblockUserPage() {
   const [response, setResponse] = useState<FetcherResponse | undefined>()
   const [user, setUser] = useState<FetcherResponse | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const loadUser = async () => {
-    const req = await useAuthentication()
+    const req = await getUserAuthentication()
 
     if (req) {
+      setLoading(true)
       setUser(req)
       setLoading(false)
     }
@@ -45,7 +46,7 @@ export default function UnblockUserPage() {
     }
 
     const user = await userResult.json()
-    const request = await useFetcher({
+    const request = await fetcher({
       url: `${API_URL}/user/unblock/${user.id}`,
       method: 'PATCH',
     })

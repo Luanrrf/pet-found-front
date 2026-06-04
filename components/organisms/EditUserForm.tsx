@@ -11,19 +11,15 @@ type Props = {
 
 export function EditUserForm({ onSubmit, onDelete }: Props) {
   return (
-    <form onSubmit={onSubmit} className="flex flex-col w-full max-w-xs gap-4">
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col w-full max-md:max-w-[350px] md:max-w-[800px] gap-4"
+    >
       <RegisterFields />
 
-      <Button type="submit" color="orange">
-        Salvar alterações
-      </Button>
+      <Button type="submit">Salvar alterações</Button>
 
-      <Button
-        type="button"
-        onClick={onDelete}
-        color="red"
-        emojiSrc="/trash.png"
-      >
+      <Button type="button" onClick={onDelete} emojiSrc="/trash.png">
         Apagar Minha Conta
       </Button>
     </form>

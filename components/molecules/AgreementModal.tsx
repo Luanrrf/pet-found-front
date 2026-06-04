@@ -5,6 +5,7 @@ interface Props {
   handleLogin: (data: { email: string; password: string }) => void
   email: string
   password: string
+  setAgreementOpen: (value: boolean) => void
 }
 
 export default function AgreementModal({
@@ -12,6 +13,7 @@ export default function AgreementModal({
   handleLogin,
   email,
   password,
+  setAgreementOpen,
 }: Props) {
   if (!open) return null
 
@@ -22,11 +24,13 @@ export default function AgreementModal({
       email,
       password,
     })
+
+    setAgreementOpen(false)
   }
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-5">
-      <div className="flex flex-col bg-white rounded-2xl py-6 max-w-[350px] w-full">
+      <div className="flex flex-col bg-white rounded-2xl py-6 max-md:max-w-[350px] md:max-w-[800px] w-full">
         <h2 className="text-xl font-bold text-[#333] mb-4 px-6">
           Estou de acordo
         </h2>

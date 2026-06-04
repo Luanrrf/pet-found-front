@@ -6,7 +6,7 @@ import { WelcomeActions } from '../organisms/WelcomeActions'
 
 export function WelcomeTemplate() {
   return (
-    <div className="relative min-h-[calc(100vh-40px)] flex flex-col items-center justify-center">
+    <div className="relative min-h-[calc(100vh-40px)] flex flex-col items-center justify-center w-full">
       <Logo
         alt="logo pet found"
         src="/logo-home.png"

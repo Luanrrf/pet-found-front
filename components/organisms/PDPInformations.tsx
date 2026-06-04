@@ -9,14 +9,15 @@ const PDPInformations = ({
   }>
 }) => {
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       {informations.map((info, index) => (
-        <p
+        <div
           key={index}
-          className="text-stone-500 text-base font-normal leading-6"
+          className="flex items-center justify-between rounded-xl bg-stone-50 px-4 py-3"
         >
-          <strong>{info.label}:</strong> {info.value}
-        </p>
+          <span className="font-medium text-stone-700">{info.label}</span>
+          <span className="text-stone-500">{info.value}</span>
+        </div>
       ))}
     </div>
   )

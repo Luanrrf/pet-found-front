@@ -34,8 +34,11 @@ export default function PetCarousel() {
 
   return (
     <div className="relative flex flex-col items-center">
-      <div className="relative flex w-full justify-center">
-        <Link className="z-10" href={`/pet/${actualAnimal.id}`}>
+      <div className="relative flex w-full justify-center max-w-[400px]">
+        <Link
+          className="z-10 absolute top-1/2 left-1/2 -translate-1/2 w-[258px]"
+          href={`/pet/${actualAnimal.id}`}
+        >
           <Image
             src={animalSrc}
             alt="Pet"
@@ -49,14 +52,14 @@ export default function PetCarousel() {
           alt="Pet"
           width={350}
           height={424}
-          className="w-full aspect-[350/424] object-cover absolute top-1/2 left-1/2 -translate-1/2 max-w-[350px]"
+          className="w-full aspect-[350/424] object-cover  max-w-[350px]"
         />
 
         {current > 0 && (
           <IconButton
             label="Animal anterior"
             onClick={previousPet}
-            className="absolute -left-4 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-3xl font-bold text-[#EF7E06]"
+            className="absolute -left-4 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-3xl font-bold text-[#EF7E06] cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +83,7 @@ export default function PetCarousel() {
           <IconButton
             label="Próximo animal"
             onClick={nextPet}
-            className="absolute -right-4 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-3xl font-bold text-[#EF7E06]"
+            className="absolute -right-4 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-3xl font-bold text-[#EF7E06] cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +104,7 @@ export default function PetCarousel() {
       </div>
 
       <Link href="pets">
-        <Button className="bg-[var(--primary)] w-full max-w-[260px] py-[10px] m-auto text-white rounded-xl px-4 hover:brightness-80 mt-10">
+        <Button className="bg-[var(--primary)] w-full max-w-[260px] py-[10px] m-auto text-white rounded-xl px-4 hover:brightness-80 cursor-pointer mt-10">
           Ver todos os animais
         </Button>
       </Link>
@@ -109,7 +112,7 @@ export default function PetCarousel() {
       <IconButton
         label="Abrir filtros"
         onClick={() => router.push('/createpet')}
-        className="mt-10 flex items-center justify-center"
+        className="mt-4 flex items-center justify-center cursor-pointer hover:brightness-80"
       >
         <Image
           src="/createAnimalIcon.png"

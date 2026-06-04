@@ -5,7 +5,7 @@ import RequestSuccess from '@/components/molecules/RequestSuccess'
 import UnauthorizedError from '@/components/molecules/UnauthorizedError'
 import PageTemplate from '@/components/pages/PageTemplate'
 import { EditUserTemplate } from '@/components/templates/EditUserTemplate'
-import useFetcher, { FetcherResponse } from '@/components/utils/useFetcher'
+import fetcher, { FetcherResponse } from '@/components/utils/fetcher'
 import Swal from 'sweetalert2'
 
 import { useState } from 'react'
@@ -23,7 +23,7 @@ export default function EditUserPage() {
     const email = formData.get('email')
     const password = formData.get('password')
 
-    const request = await useFetcher({
+    const request = await fetcher({
       url: `${API_URL}/user`,
       method: 'PATCH',
       body: {
@@ -50,7 +50,7 @@ export default function EditUserPage() {
 
     if (!confirm.isConfirmed) return
 
-    const request = await useFetcher({
+    const request = await fetcher({
       url: `${API_URL}/user/deactivate`,
       method: 'PATCH',
     })

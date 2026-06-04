@@ -11,3 +11,11 @@ body {
   background: var(--background);
   font-family: 'Inter', serif;
 }
+
+button {
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(0.85);
+  }
+}

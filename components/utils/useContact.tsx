@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useProductContext } from '../contexts/ProductContext'
 import useAnimalOwnerContact from './useAnimalOwnerContact'
-import useAuthentication from './useAuthentication'
-import { FetcherResponse } from './useFetcher'
+import getUserAuthentication from './getUserAuthentication'
+import { FetcherResponse } from './fetcher'
 
 const useContact = () => {
   const [user, setUser] = useState<FetcherResponse | null>(null)
@@ -13,7 +13,7 @@ const useContact = () => {
   useEffect(() => {
     const initRequests = async () => {
       const [firstRequest, secondRequest] = await Promise.all([
-        useAuthentication(),
+        getUserAuthentication(),
         useAnimalOwnerContact(productContext?.id ?? 0),
       ])
 

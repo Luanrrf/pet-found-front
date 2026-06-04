@@ -63,13 +63,13 @@ export default function LoginForm({
         {loading ? 'Entrando...' : 'Entrar'}
       </Button>
 
-      <p className="text-center text-sm text-[#777] mt-6">
-        Primeira vez?{' '}
+      <p className="text-center text-sm text-[#777]">
+        Ainda não possui uma conta?{' '}
         <span
           onClick={() => router.push('/register')}
           className="text-[#EF7E06] font-semibold cursor-pointer"
         >
-          Clique aqui
+          Cadastre-se
         </span>
       </p>
 

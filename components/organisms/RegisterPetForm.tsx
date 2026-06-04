@@ -29,7 +29,9 @@ export default function RegisterPetForm({ onSubmit, setFile }: Props) {
       className="bg-white rounded-[24px] p-5 flex flex-col gap-4"
     >
       <div className="flex flex-col gap-2">
-        <label className="text-sm text-[#666]">Nome do Animal</label>
+        <label className="text-sm text-[#666] font-semibold">
+          Nome do Animal
+        </label>
 
         <input
           name="name"
@@ -39,7 +41,7 @@ export default function RegisterPetForm({ onSubmit, setFile }: Props) {
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm text-[#666]">Raça</label>
+        <label className="text-sm text-[#666] font-semibold">Raça</label>
 
         <input
           name="breed"
@@ -49,7 +51,7 @@ export default function RegisterPetForm({ onSubmit, setFile }: Props) {
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm text-[#666]">Tipo</label>
+        <label className="text-sm text-[#666] font-semibold">Tipo</label>
 
         <select
           name="type"
@@ -63,7 +65,7 @@ export default function RegisterPetForm({ onSubmit, setFile }: Props) {
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm text-[#666]">Porte</label>
+        <label className="text-sm text-[#666] font-semibold">Porte</label>
 
         <select
           name="size"
@@ -78,7 +80,7 @@ export default function RegisterPetForm({ onSubmit, setFile }: Props) {
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm text-[#666]">Sexo</label>
+        <label className="text-sm text-[#666] font-semibold">Sexo</label>
 
         <select
           name="gender"
@@ -92,7 +94,7 @@ export default function RegisterPetForm({ onSubmit, setFile }: Props) {
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm text-[#666]">Imagem</label>
+        <label className="text-sm text-[#666] font-semibold">Imagem</label>
 
         <label
           htmlFor="image"
@@ -123,7 +125,7 @@ export default function RegisterPetForm({ onSubmit, setFile }: Props) {
       <input type="hidden" name="image" value={preview} />
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm text-[#666]">Observação:</label>
+        <label className="text-sm text-[#666] font-semibold">Observação:</label>
 
         <textarea
           name="observations"

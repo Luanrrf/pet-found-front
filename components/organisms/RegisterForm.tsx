@@ -23,7 +23,7 @@ export function RegisterForm({ onSubmit }: Props) {
   return (
     <form
       onSubmit={handleRegister}
-      className="flex flex-col w-full max-w-xs gap-4"
+      className="flex flex-col w-full max-md:max-w-[350px] md:max-w-[800px] gap-4"
     >
       {openModal && (
         <Modal closeModal={() => setOpenModal(false)}>
@@ -33,15 +33,27 @@ export function RegisterForm({ onSubmit }: Props) {
 
       <RegisterFields />
 
-      <label className="flex items-start gap-2 text-gray-700 text-sm">
-        <input type="checkbox" name="agree" className="mt-1" required />
+      <label className="flex items-center gap-4 cursor-pointer">
+        <input type="checkbox" name="agree" required className="peer sr-only" />
 
-        <span>
+        <div className="relative size-6 shrink-0 rounded-lg border border-stone-300 bg-white transition-colors peer-checked:border-orange-500 peer-checked:bg-orange-500">
+          <svg
+            className="absolute inset-0 m-auto hidden size-4 text-white peer-checked:block"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+          >
+            <path d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+
+        <span className="text-base font-normal leading-6 text-stone-500">
           Estou de acordo com os{' '}
           <button
             type="button"
             onClick={() => setOpenModal(true)}
-            className="text-orange-600 font-semibold underline"
+            className="text-base font-normal leading-6 text-orange-500 hover:underline"
           >
             termos e condições
           </button>

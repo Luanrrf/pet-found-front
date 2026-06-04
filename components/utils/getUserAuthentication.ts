@@ -2,15 +2,15 @@
 
 import { API_URL } from '../constants/api'
 import { getCookie } from './getCookie'
-import useFetcher from './useFetcher'
+import fetcher from './fetcher'
 
-const useAuthentication = async () => {
+const getUserAuthentication = async () => {
   const token = getCookie('token')
   if (!token) return null
 
   const url = `${API_URL}/user/me`
 
-  const user = await useFetcher({
+  const user = await fetcher({
     url,
     headers: {
       Authorization: `Bearer ${token}`,
@@ -22,4 +22,4 @@ const useAuthentication = async () => {
   return user
 }
 
-export default useAuthentication
+export default getUserAuthentication

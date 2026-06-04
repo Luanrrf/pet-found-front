@@ -6,6 +6,7 @@ import PDPInformations from '../organisms/PDPInformations'
 import { useState } from 'react'
 import PDPGalleryList from '../organisms/PDPGalleryList'
 import PDPContact from '../organisms/PDPContact'
+import ReportPDP from '../organisms/ReportPDP'
 
 export function PDPTemplate() {
   const { productContext } = useProductContext()
@@ -65,9 +66,10 @@ export function PDPTemplate() {
   )
 
   return (
-    <div className="flex flex-col gap-3 bg-[#FEE7B8] rounded-[18px] p-4">
-      <div className="flex flex-col gap-1">
+    <div className="flex max-md:flex-col md:grid md:grid-cols-[1fr_1fr] max-md:gap-3 md:gap-6 bg-[#FEE7B8] rounded-[18px] p-4">
+      <div className="flex relative flex-col gap-1">
         <PDPMainImage src={selectedImage || ''} alt={`${productContext.id}`} />
+        <ReportPDP />
         {imagesWithoutMain.length > 0 && (
           <PDPGalleryList
             images={imagesWithoutMain}
@@ -75,8 +77,11 @@ export function PDPTemplate() {
           />
         )}
       </div>
-      <PDPInformations informations={informations} />
-      <PDPContact />
+
+      <div className="flex flex-col md:justify-between gap-4">
+        <PDPInformations informations={informations} />
+        <PDPContact />
+      </div>
     </div>
   )
 }

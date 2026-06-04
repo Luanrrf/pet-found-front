@@ -13,7 +13,7 @@ export default async function PetPage({
   return (
     <PageTemplate hasDefaultHeader>
       <div>
-        <h1 className="text-[#333] font-inter text-[32px] not-italic font-bold leading-normal">
+        <h1 className="text-[#333] font-inter max-md:text-[24px] md:text-[32px] not-italic font-bold leading-normal text-center">
           Esse{' '}
           <span className="text-[var(--Primary,#EF7E06)] font-bold">pet</span>{' '}
           pode ser seu amigo!

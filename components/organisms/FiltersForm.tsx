@@ -44,7 +44,6 @@ export default function FiltersForm({ onClose }: Props) {
 
       <Button
         type="submit"
-        color="orange"
         className="mx-auto mt-28 h-12 w-[140px] rounded-md px-0 py-0 text-sm font-semibold"
       >
         Filtrar

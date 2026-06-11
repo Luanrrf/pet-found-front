@@ -16,9 +16,9 @@ export function PLPTemplate() {
   }, [openFilter])
 
   return (
-    <div>
+    <div className="min-h-[calc(100vh-80px)] w-full max-w-[1120px] bg-white pb-10">
       {openFilter && <FilterContainer setOpenFilter={setOpenFilter} />}
-      <div>
+      <div className="h-12">
         <Button
           type="button"
           onClick={() => setOpenFilter(!openFilter)}

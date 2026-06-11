@@ -1,8 +1,9 @@
 import React from 'react'
+import Link from 'next/link'
 
-const EditButton = () => {
+const EditButton = ({ petId }: { petId?: number }) => {
   return (
-    <button>
+    <Link href={`/editpet?id=${petId ?? ''}`} aria-label="Editar animal">
       <svg
         width="40"
         height="40"
@@ -31,7 +32,7 @@ const EditButton = () => {
           />
         </defs>
       </svg>
-    </button>
+    </Link>
   )
 }
 

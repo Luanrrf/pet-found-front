@@ -1,5 +1,3 @@
-// utils/validateCpf.ts
-
 export function validateCPF(cpf: string) {
   cpf = cpf.replace(/\D/g, '')
 

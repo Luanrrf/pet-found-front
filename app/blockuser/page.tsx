@@ -15,16 +15,13 @@ import { useEffect, useState } from 'react'
 export default function BlockUserPage() {
   const [response, setResponse] = useState<FetcherResponse | undefined>()
   const [user, setUser] = useState<FetcherResponse | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const loadUser = async () => {
     const req = await getUserAuthentication()
 
-    if (req) {
-      setLoading(true)
-      setUser(req)
-      setLoading(false)
-    }
+    setUser(req)
+    setLoading(false)
   }
 
   useEffect(() => {

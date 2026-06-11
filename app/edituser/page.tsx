@@ -8,11 +8,23 @@ import { EditUserTemplate } from '@/components/templates/EditUserTemplate'
 import fetcher, { FetcherResponse } from '@/components/utils/fetcher'
 import Swal from 'sweetalert2'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { API_URL } from '@/components/constants/api'
+import RequireAuth from '@/components/utils/RequireAuth'
+import getUserAuthentication from '@/components/utils/getUserAuthentication'
+import { optionalField } from '@/utils/formData'
+import Loader from '@/components/atoms/Loader'
 
 export default function EditUserPage() {
   const [response, setResponse] = useState<FetcherResponse | undefined>()
+  const [user, setUser] = useState<FetcherResponse | null>(null)
+  const [loadingUser, setLoadingUser] = useState(true)
+
+  useEffect(() => {
+    getUserAuthentication()
+      .then((authenticatedUser) => setUser(authenticatedUser))
+      .finally(() => setLoadingUser(false))
+  }, [])
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -21,7 +33,8 @@ export default function EditUserPage() {
     const cpf = formData.get('cpf')
     const name = formData.get('name')
     const email = formData.get('email')
-    const password = formData.get('password')
+    const cellphone = formData.get('cellphone')
+    const password = optionalField(formData.get('password'))
 
     const request = await fetcher({
       url: `${API_URL}/user`,
@@ -30,6 +43,7 @@ export default function EditUserPage() {
         cpf,
         name,
         email,
+        cellphone,
         password,
       },
     })
@@ -62,12 +76,19 @@ export default function EditUserPage() {
 
   return (
     <PageTemplate hasDefaultHeader>
-      {status === 0 && (
-        <EditUserTemplate onSubmit={handleSubmit} onDelete={handleDelete} />
-      )}
-      {status === 401 && <UnauthorizedError message={response?.message} />}
-      {status > 401 && <RequestGenericError message={response?.message} />}
-      {status >= 200 && status < 300 && <RequestSuccess />}
+      <RequireAuth>
+        {loadingUser && <Loader />}
+        {!loadingUser && status === 0 && (
+          <EditUserTemplate
+            onSubmit={handleSubmit}
+            onDelete={handleDelete}
+            user={user ?? undefined}
+          />
+        )}
+        {status === 401 && <UnauthorizedError message={response?.message} />}
+        {status > 401 && <RequestGenericError message={response?.message} />}
+        {status >= 200 && status < 300 && <RequestSuccess />}
+      </RequireAuth>
     </PageTemplate>
   )
 }

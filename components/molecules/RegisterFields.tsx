@@ -1,9 +1,29 @@
 import { Input } from '../atoms/Input'
 
-export function RegisterFields() {
+type RegisterFieldsProps = {
+  initialValues?: {
+    name?: unknown
+    cpf?: unknown
+    email?: unknown
+    cellphone?: unknown
+  }
+  requirePassword?: boolean
+}
+
+export function RegisterFields({
+  initialValues,
+  requirePassword = true,
+}: RegisterFieldsProps) {
   return (
     <div className="flex flex-col gap-4">
-      <Input type="text" placeholder="Nome" id="name" name="name" required />
+      <Input
+        type="text"
+        placeholder="Nome"
+        id="name"
+        name="name"
+        required
+        defaultValue={String(initialValues?.name ?? '')}
+      />
 
       <Input
         type="text"
@@ -12,6 +32,7 @@ export function RegisterFields() {
         name="cpf"
         required
         maxLength={14}
+        defaultValue={String(initialValues?.cpf ?? '')}
         onChange={(e) => {
           let value = e.target.value
 
@@ -33,6 +54,7 @@ export function RegisterFields() {
         id="email"
         name="email"
         required
+        defaultValue={String(initialValues?.email ?? '')}
       />
 
       <Input
@@ -41,6 +63,7 @@ export function RegisterFields() {
         id="cellphone"
         name="cellphone"
         required
+        defaultValue={String(initialValues?.cellphone ?? '')}
       />
 
       <Input
@@ -48,7 +71,7 @@ export function RegisterFields() {
         placeholder="Senha"
         id="password"
         name="password"
-        required
+        required={requirePassword}
       />
 
       <Input
@@ -56,7 +79,7 @@ export function RegisterFields() {
         placeholder="Confirme sua senha"
         id="confirmPassword"
         name="confirmPassword"
-        required
+        required={requirePassword}
       />
     </div>
   )

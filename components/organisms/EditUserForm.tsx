@@ -7,15 +7,16 @@ import { Button } from '../atoms/Button'
 type Props = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
   onDelete: () => void
+  user?: Record<string, unknown>
 }
 
-export function EditUserForm({ onSubmit, onDelete }: Props) {
+export function EditUserForm({ onSubmit, onDelete, user }: Props) {
   return (
     <form
       onSubmit={onSubmit}
       className="flex flex-col w-full max-md:max-w-[350px] md:max-w-[800px] gap-4"
     >
-      <RegisterFields />
+      <RegisterFields initialValues={user} requirePassword={false} />
 
       <Button type="submit">Salvar alterações</Button>
 

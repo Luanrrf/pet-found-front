@@ -12,6 +12,7 @@ export interface AnimalProps {
   breed?: string
   gender?: string
   images?: AnimalImage[]
+  observations?: string
   is_adopted?: boolean
   created_at?: string
   userId?: number

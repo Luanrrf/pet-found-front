@@ -16,7 +16,7 @@ const PDPContact = () => {
     return <Loading />
   }
 
-  const hasUser = !user || user.status !== 401
+  const hasUser = !!user && user.status !== 401
 
   return (
     <div className="max-md:mt-6 rounded-2xl border border-[#E5E7EB] bg-white p-6 shadow-sm">

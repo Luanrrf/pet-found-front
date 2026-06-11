@@ -25,6 +25,7 @@ export function PDPTemplate() {
   const translations: Record<string, string> = {
     male: 'Macho',
     female: 'Fêmea',
+    unknown: 'Não sei dizer',
     small: 'Pequeno',
     medium: 'Médio',
     large: 'Grande',

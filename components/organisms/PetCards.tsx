@@ -6,6 +6,7 @@ import PetCard from '../molecules/PetCard'
 import { useFilterContext } from '../contexts/FilterContext'
 import { API_URL } from '../constants/api'
 import Loader from '../atoms/Loader'
+import { animalMatchesFilters } from '@/utils/animalMappers'
 
 const PetCards = () => {
   const { pageContext } = useFilterContext()
@@ -21,24 +22,12 @@ const PetCards = () => {
 
   const { filters } = pageContext
 
-  const filteredAnimals = animals?.filter((animal) => {
-    // const sizeFilter = filters.size ?? []
-    const genderFilter = filters.gender ?? []
-    const typeFilter = filters.type ?? []
-
-    // const hasSelectedSize = sizeFilter.includes(animal.size || '')
-    const hasSelectedGender = genderFilter.includes(animal.gender || '')
-    const hasSelectedType = typeFilter.includes(animal.type || '')
-
-    return (
-      // (sizeFilter.length === 0 || hasSelectedSize) &&
-      (genderFilter.length === 0 || hasSelectedGender) &&
-      (typeFilter.length === 0 || hasSelectedType)
-    )
-  })
+  const filteredAnimals = animals?.filter((animal) =>
+    animalMatchesFilters(animal, filters)
+  )
 
   return (
-    <section className="flex gap-4 flex-wrap mt-10">
+    <section className="mt-10 grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-5">
       {filteredAnimals?.map((animal) => (
         <PetCard {...animal} key={animal.id} />
       ))}

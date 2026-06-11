@@ -22,16 +22,21 @@ const PDPMainImage = ({ src, alt }: { src: string; alt: string }) => {
     'close'
   )
   const [thisIsMyAnimal, setThisIsMyAnimal] = useState<boolean>(false)
+  const [checkingOwner, setCheckingOwner] = useState(true)
 
   const { productContext } = useProductContext()
 
   const verifyIfAnimalIsYours = async () => {
     const myAnimals = await useMyAnimals()
-    if (!myAnimals) return
+    if (!myAnimals) {
+      setCheckingOwner(false)
+      return
+    }
 
     const thisIsMyAnimal = findAnimalById(myAnimals, productContext?.id ?? 0)
 
     setThisIsMyAnimal(thisIsMyAnimal)
+    setCheckingOwner(false)
   }
 
   useEffect(() => {
@@ -45,12 +50,18 @@ const PDPMainImage = ({ src, alt }: { src: string; alt: string }) => {
         alt={alt}
         width={500}
         height={500}
-        className="w-full aspect-square object-cover rounded-[20px]"
+        className="w-full aspect-square object-contain rounded-[20px] bg-stone-100"
       />
-      {thisIsMyAnimal && (
+      {checkingOwner && (
+        <div className="absolute left-4 right-4 top-4 flex items-center justify-between">
+          <div className="h-10 w-32 animate-pulse rounded-lg bg-white/80" />
+          <div className="h-10 w-10 animate-pulse rounded-lg bg-white/80" />
+        </div>
+      )}
+      {!checkingOwner && thisIsMyAnimal && (
         <div className="absolute top-4 left-[50%] transform -translate-x-1/2 flex items-center justify-between w-full px-4">
           <form
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 rounded-xl bg-white/90 px-3 py-2 shadow-sm"
             onChange={() => {
               setModalState('open')
             }}
@@ -63,9 +74,14 @@ const PDPMainImage = ({ src, alt }: { src: string; alt: string }) => {
               readOnly
             />
             <span className="w-6 h-6 rounded-lg bg-white peer-checked:border-green-500 peer-checked:bg-[#EF7E06]" />
-            <label htmlFor="mainImageZoom">Adotado?</label>
+            <label
+              htmlFor="mainImageZoom"
+              className="font-semibold text-stone-800"
+            >
+              Adotado?
+            </label>
           </form>
-          <EditButton />
+          <EditButton petId={productContext?.id} />
         </div>
       )}
 

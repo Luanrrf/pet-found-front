@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import DOMPurify from 'dompurify'
 
 import PageTemplate from '@/components/pages/PageTemplate'
@@ -8,14 +8,40 @@ import EditPetTemplate from '@/components/templates/EditPetTemplate'
 import WarningModal from '@/components/molecules/WarningModal'
 import { API_URL } from '@/components/constants/api'
 import { getCookie } from '@/components/utils/getCookie'
+import RequireAuth from '@/components/utils/RequireAuth'
+import { useSearchParams } from 'next/navigation'
+import type { AnimalProps } from '@/components/types/animal'
+import Loader from '@/components/atoms/Loader'
+import { firstAnimalImage } from '@/utils/animalMappers'
 
-export default function EditPetPage() {
+function EditPetContent() {
   const [open, setOpen] = useState(true)
+  const [animal, setAnimal] = useState<AnimalProps | null>(null)
+  const [loadingAnimal, setLoadingAnimal] = useState(true)
+  const searchParams = useSearchParams()
+  const petId = searchParams.get('id')
+
+  useEffect(() => {
+    if (!petId) {
+      setLoadingAnimal(false)
+      return
+    }
+
+    fetch(`${API_URL}/animal/${petId}`)
+      .then((response) => response.json())
+      .then((data) => setAnimal(data))
+      .finally(() => setLoadingAnimal(false))
+  }, [petId])
 
   async function handleEditPet(formData: FormData) {
     const token = getCookie('token')
 
-    const response = await fetch(`${API_URL}/animal/1`, {
+    if (!petId) {
+      alert('Animal não encontrado para edição.')
+      return
+    }
+
+    const response = await fetch(`${API_URL}/animal/${petId}`, {
       method: 'PATCH',
 
       headers: {
@@ -24,10 +50,14 @@ export default function EditPetPage() {
       },
 
       body: JSON.stringify({
+        name: DOMPurify.sanitize(formData.get('name') as string),
+        breed: DOMPurify.sanitize(formData.get('breed') as string),
         type: DOMPurify.sanitize(formData.get('type') as string),
         size: DOMPurify.sanitize(formData.get('size') as string),
         gender: DOMPurify.sanitize(formData.get('gender') as string),
-        image: DOMPurify.sanitize(formData.get('image') as string),
+        image:
+          DOMPurify.sanitize(formData.get('image') as string) ||
+          firstAnimalImage(animal),
         observations: DOMPurify.sanitize(
           formData.get('observations') as string
         ),
@@ -42,9 +72,23 @@ export default function EditPetPage() {
 
   return (
     <PageTemplate hasDefaultHeader>
-      <EditPetTemplate onSubmit={handleEditPet} />
+      <RequireAuth>
+        {loadingAnimal ? (
+          <Loader />
+        ) : (
+          <EditPetTemplate onSubmit={handleEditPet} animal={animal} />
+        )}
 
-      <WarningModal open={open} onClose={() => setOpen(false)} />
+        <WarningModal open={open} onClose={() => setOpen(false)} />
+      </RequireAuth>
     </PageTemplate>
+  )
+}
+
+export default function EditPetPage() {
+  return (
+    <Suspense fallback={null}>
+      <EditPetContent />
+    </Suspense>
   )
 }

@@ -17,7 +17,7 @@ const getUserAuthentication = async () => {
     },
   })
 
-  if (!user) return null
+  if (!user || user.status === 401) return null
 
   return user
 }

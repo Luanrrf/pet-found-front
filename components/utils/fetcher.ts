@@ -30,7 +30,8 @@ const fetcher = async ({
     body: body ? JSON.stringify(body) : null,
   })
 
-  const data = await response.json()
+  const text = await response.text()
+  const data = text ? JSON.parse(text) : {}
 
   return {
     ...data,

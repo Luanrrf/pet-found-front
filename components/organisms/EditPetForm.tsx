@@ -1,14 +1,21 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import type { AnimalProps } from '../types/animal'
+import { firstAnimalImage } from '@/utils/animalMappers'
 
 interface Props {
   onSubmit: (data: FormData) => void
+  animal?: AnimalProps | null
 }
 
-export default function EditPetForm({ onSubmit }: Props) {
+export default function EditPetForm({ onSubmit, animal }: Props) {
   const [preview, setPreview] = useState('')
+
+  useEffect(() => {
+    setPreview(firstAnimalImage(animal))
+  }, [animal])
 
   function handleImage(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
@@ -32,6 +39,7 @@ export default function EditPetForm({ onSubmit }: Props) {
           name="name"
           placeholder="Nome do Animal (caso não saiba por favor, coloque 'Não sei')"
           className="w-full h-[48px] rounded-xl border border-[#DDD] px-4"
+          defaultValue={animal?.name ?? ''}
         />
       </div>
 
@@ -42,6 +50,7 @@ export default function EditPetForm({ onSubmit }: Props) {
           name="breed"
           placeholder="Ex: Dobberman"
           className="w-full h-[48px] rounded-xl border border-[#DDD] px-4"
+          defaultValue={animal?.breed ?? ''}
         />
       </div>
 
@@ -51,7 +60,7 @@ export default function EditPetForm({ onSubmit }: Props) {
         <select
           name="type"
           className="w-full h-[48px] rounded-xl border border-[#DDD] px-4"
-          defaultValue=""
+          defaultValue={animal?.type ?? ''}
         >
           <option disabled value=""></option>
           <option value="Dog">Cachorro</option>
@@ -65,7 +74,7 @@ export default function EditPetForm({ onSubmit }: Props) {
         <select
           name="size"
           className="w-full h-[48px] rounded-xl border border-[#DDD] px-4"
-          defaultValue=""
+          defaultValue={animal?.size ?? ''}
         >
           <option disabled value=""></option>
           <option value="Small">Pequeno</option>
@@ -80,11 +89,12 @@ export default function EditPetForm({ onSubmit }: Props) {
         <select
           name="gender"
           className="w-full h-[48px] rounded-xl border border-[#DDD] px-4"
-          defaultValue=""
+          defaultValue={animal?.gender ?? ''}
         >
           <option disabled value=""></option>
           <option value="Male">Macho</option>
           <option value="Female">Fêmea</option>
+          <option value="Unknown">Não sei dizer</option>
         </select>
       </div>
 
@@ -128,6 +138,7 @@ export default function EditPetForm({ onSubmit }: Props) {
             'Ex: Vacinas que já tenha tomado ou alguma especificidade do animal.'
           }
           className="w-full min-h-[100px] rounded-xl border border-[#DDD] p-4 resize-none"
+          defaultValue={animal?.observations ?? ''}
         />
       </div>
 
@@ -136,6 +147,7 @@ export default function EditPetForm({ onSubmit }: Props) {
           type="checkbox"
           name="is_adopted"
           value="true"
+          defaultChecked={animal?.is_adopted ?? false}
           className="h-5 w-5 accent-[#EF7E06]"
         />
         Adotado?

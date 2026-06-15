@@ -35,14 +35,14 @@ export default function PetFilter({
   }
 
   return (
-    <div className="mb-6">
+    <div className="mb-6 min-w-[180px]">
       <p className="text-stone-500 text-base font-semibold leading-4 mb-6">
         {title}
       </p>
 
       <ul className="flex flex-col gap-6">
         {options.map((option) => (
-          <li key={option.value}>
+          <li key={option.value} className="h-7">
             <label className="flex items-center gap-4 cursor-pointer">
               <input
                 type="checkbox"

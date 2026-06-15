@@ -7,9 +7,14 @@ interface Props {
   onSubmit: (data: FormData) => void
   file: File | null
   setFile: (file: File | null) => void
+  submitting?: boolean
 }
 
-export default function RegisterPetForm({ onSubmit, setFile }: Props) {
+export default function RegisterPetForm({
+  onSubmit,
+  setFile,
+  submitting = false,
+}: Props) {
   const [preview, setPreview] = useState('')
 
   function handleImage(event: React.ChangeEvent<HTMLInputElement>) {
@@ -90,6 +95,7 @@ export default function RegisterPetForm({ onSubmit, setFile }: Props) {
           <option disabled value=""></option>
           <option value="Male">Macho</option>
           <option value="Female">Fêmea</option>
+          <option value="Unknown">Não sei dizer</option>
         </select>
       </div>
 
@@ -136,9 +142,10 @@ export default function RegisterPetForm({ onSubmit, setFile }: Props) {
 
       <button
         type="submit"
-        className="w-full h-[48px] rounded-xl bg-[#EF7E06] text-white font-semibold mt-2"
+        disabled={submitting}
+        className="w-full h-[48px] rounded-xl bg-[#EF7E06] text-white font-semibold mt-2 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        Registrar
+        {submitting ? 'Registrando...' : 'Registrar'}
       </button>
     </form>
   )

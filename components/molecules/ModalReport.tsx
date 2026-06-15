@@ -16,6 +16,8 @@ const ModalReport = ({
   const [reportText, setReportText] = useState('')
   const [reportedSuccessfully, setReportedSuccessfully] = useState(false)
   const [alreadyReported, setAlreadyReported] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   async function fetchUser() {
     const user = await getUserAuthentication()
@@ -37,7 +39,14 @@ const ModalReport = ({
   }
 
   const handleReport = () => {
+    if (!productContext?.id) {
+      setError('Animal não carregado. Tente novamente em instantes.')
+      return
+    }
+
     const token = getCookie('token')
+    setLoading(true)
+    setError('')
 
     fetcher({
       url: `${API_URL}/animal/report`,
@@ -51,12 +60,25 @@ const ModalReport = ({
         Authorization: `Bearer ${token}`,
       },
     })
-      .then(() => {
+      .then((response) => {
+        if (response.status < 200 || response.status >= 300) {
+          throw new Error(response.message || 'Erro ao enviar denúncia.')
+        }
+
         setReportedSuccessfully(true)
+        setAlreadyReported(true)
         setReportText('')
       })
-      .catch(() => {
+      .catch((err: unknown) => {
         setReportedSuccessfully(false)
+        setError(
+          err instanceof Error
+            ? err.message
+            : 'Não foi possível enviar a denúncia.'
+        )
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
 
@@ -134,6 +156,12 @@ const ModalReport = ({
               responsável.
             </div>
 
+            {error && (
+              <p className="text-center text-sm font-medium text-red-500">
+                {error}
+              </p>
+            )}
+
             <div className="flex flex-col-reverse gap-3 md:flex-row md:justify-center">
               <Button
                 onClick={closeModal}
@@ -144,12 +172,18 @@ const ModalReport = ({
 
               <Button
                 onClick={handleReport}
-                disabled={!reportText.trim()}
+                disabled={!reportText.trim() || loading || alreadyReported}
                 className="m-auto w-full max-w-[260px] rounded-xl bg-[var(--primary)] px-4 py-[10px] text-white hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Enviar denúncia
+                {loading ? 'Enviando...' : 'Enviar denúncia'}
               </Button>
             </div>
+
+            {loading && (
+              <p className="text-center text-sm font-medium text-gray-500">
+                Enviando denúncia, aguarde...
+              </p>
+            )}
           </>
         )}
       </div>

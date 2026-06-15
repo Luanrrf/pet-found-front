@@ -41,6 +41,7 @@ export function FilterContainer({
         options={[
           { label: 'Macho', value: 'Male' },
           { label: 'Fêmea', value: 'Female' },
+          { label: 'Não sei dizer', value: 'Unknown' },
         ]}
       />
 

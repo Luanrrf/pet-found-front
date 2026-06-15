@@ -5,15 +5,19 @@ import Image from 'next/image'
 
 const PetCard = ({ id, images }: AnimalProps) => {
   const firstImage = images && images.length > 0 ? images[0].url : null
+  if (!firstImage) return null
 
   return (
-    <Link href={`/pet/${id}`} className="w-[100px] h-[100px] rounded-[20px]">
+    <Link
+      href={`/pet/${id}`}
+      className="block h-[100px] w-[100px] overflow-hidden rounded-[20px]"
+    >
       <Image
-        src={firstImage ?? ''}
+        src={firstImage}
         alt="pet"
         width={200}
         height={200}
-        className="aspect-square object-cover rounded-[20px]"
+        className="h-full w-full object-contain rounded-[20px] bg-stone-100"
       />
     </Link>
   )

@@ -7,11 +7,13 @@ import { RegisterTemplate } from '@/components/templates/RegisterTemplate'
 import fetcher from '@/components/utils/fetcher'
 import type { FetcherResponse } from '@/components/utils/fetcher'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { validateCPF } from '@/utils/ValidateCpf'
 import { API_URL } from '@/components/constants/api'
 
 export default function RegisterPage() {
   const [response, setResponse] = useState<FetcherResponse | undefined>()
+  const router = useRouter()
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -54,6 +56,10 @@ export default function RegisterPage() {
     })
 
     setResponse(request)
+
+    if (request.status >= 200 && request.status < 300) {
+      router.push('/login')
+    }
   }
 
   const status = response?.status ?? 0

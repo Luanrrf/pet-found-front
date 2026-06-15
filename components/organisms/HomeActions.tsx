@@ -8,7 +8,7 @@ export function HomeActions({ user }: { user: FetcherResponse }) {
 
   return (
     <div className="flex flex-col gap-10 w-full max-md:max-w-[350px] md:max-w-[800px]">
-      <Link href={`/edituser/${user.userId}`} className="flex w-full">
+      <Link href="/edituser" className="flex w-full">
         <Button className="bg-[var(--primary)] w-full max-w-[260px] py-[10px] m-auto text-white rounded-xl px-4 hover:brightness-80">
           Editar Usuário
         </Button>

@@ -14,6 +14,7 @@ import RequireAuth from '@/components/utils/RequireAuth'
 import getUserAuthentication from '@/components/utils/getUserAuthentication'
 import { optionalField } from '@/utils/formData'
 import Loader from '@/components/atoms/Loader'
+import { getCookie } from '@/components/utils/getCookie'
 
 export default function EditUserPage() {
   const [response, setResponse] = useState<FetcherResponse | undefined>()
@@ -36,9 +37,14 @@ export default function EditUserPage() {
     const cellphone = formData.get('cellphone')
     const password = optionalField(formData.get('password'))
 
+    const token = getCookie('token')
+
     const request = await fetcher({
       url: `${API_URL}/user`,
       method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: {
         cpf,
         name,

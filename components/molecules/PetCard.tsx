@@ -10,7 +10,7 @@ const PetCard = ({ id, images }: AnimalProps) => {
   return (
     <Link
       href={`/pet/${id}`}
-      className="block h-[100px] w-[100px] overflow-hidden rounded-[20px]"
+      className="block md:h-[100px] max-md:h-auto md:w-[100px] max-md:w-fit aspect-square overflow-hidden rounded-[20px]"
     >
       <Image
         src={firstImage}

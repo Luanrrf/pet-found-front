@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
-import PageContainer from '../pages/PageContainer'
 import CloseIcon from '../atoms/CloseIcon'
 import { Button } from '../atoms/Button'
+import FilterPageContainer from '../pages/FilterPageContainer'
 
 export function ModalFilter({
   children,
@@ -11,14 +11,13 @@ export function ModalFilter({
   setOpenFilter: Dispatch<SetStateAction<boolean>>
 }) {
   return (
-    <PageContainer
+    <FilterPageContainer
       position="absolute"
       marginLeft="0"
       width="100%"
       left="0"
       top="0"
       padding="32px"
-      height="100%"
     >
       <Button
         onClick={() => setOpenFilter(false)}
@@ -27,6 +26,6 @@ export function ModalFilter({
         <CloseIcon />
       </Button>
       {children}
-    </PageContainer>
+    </FilterPageContainer>
   )
 }

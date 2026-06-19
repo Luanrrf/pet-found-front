@@ -6,7 +6,6 @@ import { HomeActions } from '../organisms/HomeActions'
 import { FetcherResponse } from '../utils/fetcher'
 
 export function HomeTemplate({ user }: { user: FetcherResponse }) {
-  console.log('USER:', user)
   return (
     <div className="relative min-h-[calc(100vh-40px)] flex flex-col items-center justify-center w-full">
       <Logo

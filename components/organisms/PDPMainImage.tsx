@@ -61,7 +61,7 @@ const PDPMainImage = ({ src, alt }: { src: string; alt: string }) => {
       {!checkingOwner && thisIsMyAnimal && (
         <div className="absolute top-4 left-[50%] transform -translate-x-1/2 flex items-center justify-between w-full px-4">
           <form
-            className="flex items-center gap-2 rounded-xl bg-white/90 px-3 py-2 shadow-sm"
+            className="flex items-center gap-2 rounded-xl bg-white/90 shadow-sm"
             onChange={() => {
               setModalState('open')
             }}
@@ -73,11 +73,11 @@ const PDPMainImage = ({ src, alt }: { src: string; alt: string }) => {
               checked={productContext?.is_adopted}
               readOnly
             />
-            <span className="w-6 h-6 rounded-lg bg-white peer-checked:border-green-500 peer-checked:bg-[#EF7E06]" />
             <label
               htmlFor="mainImageZoom"
-              className="font-semibold text-stone-800"
+              className="font-semibold text-stone-800 flex gap-2 px-3 py-2 cursor-pointer"
             >
+              <span className="min-w-6 h-6 rounded-lg bg-white border border-gray-300 peer-checked:border-green-500 peer-checked:bg-[#EF7E06]" />
               Adotado?
             </label>
           </form>

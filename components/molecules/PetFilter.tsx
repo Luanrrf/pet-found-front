@@ -1,4 +1,5 @@
-import { useFilterContext } from '../contexts/FilterContext'
+import { Dispatch, SetStateAction } from 'react'
+import { FilterPageContextProps } from '../contexts/FilterContext/types'
 
 type Option = {
   label: string
@@ -9,16 +10,18 @@ export default function PetFilter({
   title,
   filterKey,
   options,
+  filters,
+  setFilters,
 }: {
   title: string
   filterKey: string
   options: Option[]
+  filters: FilterPageContextProps['filters']
+  setFilters: Dispatch<SetStateAction<FilterPageContextProps['filters']>>
 }) {
-  const { pageContext, setPageContext } = useFilterContext()
-
   const handleChange = (value: string, checked: boolean) => {
-    setPageContext((prev) => {
-      const currentValues: string[] = prev.filters?.[filterKey] ?? []
+    setFilters((prev) => {
+      const currentValues = prev[filterKey] ?? []
 
       const updatedValues = checked
         ? [...currentValues, value]
@@ -26,10 +29,7 @@ export default function PetFilter({
 
       return {
         ...prev,
-        filters: {
-          ...prev.filters,
-          [filterKey]: updatedValues,
-        },
+        [filterKey]: updatedValues,
       }
     })
   }
@@ -49,10 +49,7 @@ export default function PetFilter({
                 value={option.value}
                 className="sr-only peer"
                 onChange={(e) => handleChange(option.value, e.target.checked)}
-                checked={
-                  pageContext.filters[filterKey]?.includes(option.value) ||
-                  false
-                }
+                checked={filters[filterKey]?.includes(option.value) || false}
               />
 
               <div

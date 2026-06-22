@@ -16,15 +16,23 @@ const ModalReport = ({
   const [reportText, setReportText] = useState('')
   const [reportedSuccessfully, setReportedSuccessfully] = useState(false)
   const [alreadyReported, setAlreadyReported] = useState(false)
+  const [loadingUser, setLoadingUser] = useState(true)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   async function fetchUser() {
-    const user = await getUserAuthentication()
-    if (user) {
-      setAlreadyReported(
-        user.reported_animals_ids?.includes(productContext?.id ?? 0) ?? false
-      )
+    setLoadingUser(true)
+    try {
+      const user = await getUserAuthentication()
+      if (user) {
+        setAlreadyReported(
+          user.reported_animals_ids?.includes(productContext?.id ?? 0) ?? false
+        )
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoadingUser(false)
     }
   }
 
@@ -62,7 +70,16 @@ const ModalReport = ({
     })
       .then((response) => {
         if (response.status < 200 || response.status >= 300) {
-          throw new Error(response.message || 'Erro ao enviar denúncia.')
+          const message: string = response.message ?? ''
+          if (
+            message.toLowerCase().includes('already') ||
+            message.toLowerCase().includes('já') ||
+            message.toLowerCase().includes('reportado')
+          ) {
+            setAlreadyReported(true)
+            return
+          }
+          throw new Error(message || 'Erro ao enviar denúncia.')
         }
 
         setReportedSuccessfully(true)
@@ -82,15 +99,61 @@ const ModalReport = ({
       })
   }
 
+  const showAlreadyReported = alreadyReported && !reportedSuccessfully
+
+  console.log('>>> alreadyReported', alreadyReported)
+  console.log('>>> reportedSuccessfully', reportedSuccessfully)
+
   return (
     <Modal closeModal={closeModal} hasCloseButton={false}>
       <div className="flex flex-col gap-6 p-2">
-        {alreadyReported && (
-          <p className="text-red-500">
-            Você já reportou este pet. Obrigado pela sua contribuição!
-          </p>
-        )}
-        {reportedSuccessfully ? (
+        {loadingUser ? (
+          <div className="flex flex-col items-center gap-3 py-6">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-[var(--primary)]" />
+            <p className="text-sm text-gray-500">Carregando...</p>
+          </div>
+        ) : showAlreadyReported ? (
+          <>
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100">
+                <svg
+                  className="h-6 w-6 text-amber-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+                  />
+                </svg>
+              </div>
+
+              <h2 className="mb-3 text-xl font-semibold text-gray-900">
+                Anúncio já reportado
+              </h2>
+
+              <p className="text-sm leading-relaxed text-gray-600">
+                Você já enviou uma denúncia para este anúncio anteriormente.
+                Nossa equipe está analisando o caso.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-800">
+              Caso tenha novas informações relevantes, entre em contato com o
+              suporte da plataforma diretamente.
+            </div>
+
+            <Button
+              className="m-auto w-full max-w-[260px] rounded-xl bg-[var(--primary)] px-4 py-[10px] text-white hover:brightness-90"
+              onClick={closeModal}
+            >
+              Fechar
+            </Button>
+          </>
+        ) : reportedSuccessfully ? (
           <>
             <div className="text-center">
               <h2 className="mb-3 text-xl font-semibold text-gray-900">
@@ -172,7 +235,7 @@ const ModalReport = ({
 
               <Button
                 onClick={handleReport}
-                disabled={!reportText.trim() || loading || alreadyReported}
+                disabled={!reportText.trim() || loading}
                 className="m-auto w-full max-w-[260px] rounded-xl bg-[var(--primary)] px-4 py-[10px] text-white hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {loading ? 'Enviando...' : 'Enviar denúncia'}

@@ -10,8 +10,8 @@ import { Suspense } from 'react'
 export default function PetListPage() {
   return (
     <PageTemplate hasDefaultHeader>
-      <Title text="Encontre agora um animal que é a sua cara" />
       <div>
+        <Title text="Encontre agora um animal que é a sua cara" />
         <PageContainer>
           <Suspense fallback={null}>
             <FilterProvider>

@@ -27,7 +27,7 @@ const PetCards = () => {
   )
 
   return (
-    <section className="mt-10 grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-5">
+    <section className="mt-10 grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-6">
       {filteredAnimals?.map((animal) => (
         <PetCard {...animal} key={animal.id} />
       ))}

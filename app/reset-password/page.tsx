@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import DOMPurify from 'dompurify'
 import PageTemplate from '@/components/pages/PageTemplate'
 import ResetPasswordTemplate from '@/components/templates/ResetPasswordTemplate'
 import { API_URL } from '@/components/constants/api'
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const searchParams = useSearchParams()
   const token = searchParams.get('token') ?? ''
 
@@ -66,5 +66,13 @@ export default function ResetPasswordPage() {
         handleReset={handleReset}
       />
     </PageTemplate>
+  )
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={null}>
+      <ResetPasswordContent />
+    </Suspense>
   )
 }

@@ -7,7 +7,7 @@ import type { AnimalProps } from '../types/animal'
 import { firstAnimalImage } from '@/utils/animalMappers'
 import { API_URL } from '../constants/api'
 import { getCookie } from '../utils/getCookie'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 interface Props {
   animal?: AnimalProps | null
@@ -16,6 +16,7 @@ interface Props {
 export default function EditPetForm({ animal }: Props) {
   const [preview, setPreview] = useState('')
   const searchParams = useSearchParams()
+  const router = useRouter()
 
   useEffect(() => {
     setPreview(firstAnimalImage(animal))
@@ -58,6 +59,7 @@ export default function EditPetForm({ animal }: Props) {
 
     if (response.ok) {
       alert('Pet atualizado com sucesso!')
+      router.push('/pets')
     }
   }
 

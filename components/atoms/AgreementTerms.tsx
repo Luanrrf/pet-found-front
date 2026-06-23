@@ -225,18 +225,16 @@ export default function AgreementTerms() {
               através dos seguintes e-mails:
             </p>
             <ul className="space-y-2">
-              {['luanrrf@yahoo.com.br', 'rafael1311cabral@gmail.com'].map(
-                (email) => (
-                  <li key={email}>
-                    <a
-                      href={`mailto:${email}`}
-                      className="text-orange-500 hover:text-orange-600 text-sm font-medium underline underline-offset-2 transition-colors"
-                    >
-                      {email}
-                    </a>
-                  </li>
-                )
-              )}
+              {['petfoundappbr@gmail.com'].map((email) => (
+                <li key={email}>
+                  <a
+                    href={`mailto:${email}`}
+                    className="text-orange-500 hover:text-orange-600 text-sm font-medium underline underline-offset-2 transition-colors"
+                  >
+                    {email}
+                  </a>
+                </li>
+              ))}
             </ul>
           </section>
         </div>

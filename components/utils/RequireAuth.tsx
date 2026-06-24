@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
-import Loading from '../atoms/Loading'
+import Loader from '../atoms/Loader'
 import getUserAuthentication from './getUserAuthentication'
 
 export default function RequireAuth({
@@ -46,7 +46,7 @@ export default function RequireAuth({
   }, [router])
 
   if (!allowed) {
-    return <Loading />
+    return <Loader />
   }
 
   return children

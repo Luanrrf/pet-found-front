@@ -6,6 +6,7 @@ import { Button } from '../atoms/Button'
 import Modal from '../organisms/Modal'
 import getUserAuthentication from '../utils/getUserAuthentication'
 import { getCookie } from '../utils/getCookie'
+import { useRouter } from 'next/navigation'
 
 const ModalReport = ({
   setReportModalOpen,
@@ -19,6 +20,7 @@ const ModalReport = ({
   const [loadingUser, setLoadingUser] = useState(true)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const router = useRouter()
 
   async function fetchUser() {
     setLoadingUser(true)
@@ -39,6 +41,16 @@ const ModalReport = ({
   useEffect(() => {
     fetchUser()
   }, [])
+
+  useEffect(() => {
+    if (!reportedSuccessfully) return
+
+    const redirectTimeout = window.setTimeout(() => {
+      router.push('/pets')
+    }, 1500)
+
+    return () => window.clearTimeout(redirectTimeout)
+  }, [reportedSuccessfully, router])
 
   const closeModal = () => setReportModalOpen(false)
 
@@ -100,9 +112,6 @@ const ModalReport = ({
   }
 
   const showAlreadyReported = alreadyReported && !reportedSuccessfully
-
-  console.log('>>> alreadyReported', alreadyReported)
-  console.log('>>> reportedSuccessfully', reportedSuccessfully)
 
   return (
     <Modal closeModal={closeModal} hasCloseButton={false}>

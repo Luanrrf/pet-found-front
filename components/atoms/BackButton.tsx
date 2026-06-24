@@ -9,7 +9,7 @@ export default function BackButton() {
     <button
       type="button"
       onClick={() => router.back()}
-      className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-200 bg-white text-2xl leading-none text-[#EF7E06] shadow-sm hover:brightness-95"
+      className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-200 bg-transparent text-2xl leading-none text-[#EF7E06] hover:brightness-95"
       aria-label="Voltar"
       title="Voltar"
     >

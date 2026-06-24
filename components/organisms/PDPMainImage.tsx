@@ -17,7 +17,15 @@ export function findAnimalById(data: FetcherResponse, animalId: number) {
   )
 }
 
-const PDPMainImage = ({ src, alt }: { src: string; alt: string }) => {
+const PDPMainImage = ({
+  src,
+  alt,
+  blurImage = false,
+}: {
+  src: string
+  alt: string
+  blurImage?: boolean
+}) => {
   const [modalState, setModalState] = useState<'open' | 'loading' | 'close'>(
     'close'
   )
@@ -50,7 +58,9 @@ const PDPMainImage = ({ src, alt }: { src: string; alt: string }) => {
         alt={alt}
         width={500}
         height={500}
-        className="w-full aspect-square object-contain rounded-[20px] bg-stone-100"
+        className={`w-full aspect-square object-contain rounded-[20px] bg-stone-100 ${
+          blurImage ? 'blur-md scale-[1.02]' : ''
+        }`}
       />
       {checkingOwner && (
         <div className="absolute left-4 right-4 top-4 flex items-center justify-between">

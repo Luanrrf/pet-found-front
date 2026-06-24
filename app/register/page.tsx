@@ -1,7 +1,6 @@
 'use client'
 
 import RequestGenericError from '@/components/molecules/RequestGenericError'
-import RequestSuccess from '@/components/molecules/RequestSuccess'
 import PageTemplate from '@/components/pages/PageTemplate'
 import { RegisterTemplate } from '@/components/templates/RegisterTemplate'
 import fetcher from '@/components/utils/fetcher'
@@ -10,6 +9,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { validateCPF } from '@/utils/ValidateCpf'
 import { API_URL } from '@/components/constants/api'
+import Swal from 'sweetalert2'
 
 export default function RegisterPage() {
   const [response, setResponse] = useState<FetcherResponse | undefined>()
@@ -29,17 +29,50 @@ export default function RegisterPage() {
     const agree = formData.get('agree')
 
     if (!agree) {
-      alert('Você precisa concordar com os termos para continuar.')
+      await Swal.fire({
+        icon: 'error',
+        title: 'Termos obrigatórios',
+        text: 'Você precisa concordar com os termos para continuar.',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK',
+      })
       return
     }
 
     if (password !== confirmPassword) {
-      alert('As senhas não coincidem.')
+      await Swal.fire({
+        icon: 'error',
+        title: 'Senhas diferentes',
+        text: 'As senhas não coincidem.',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK',
+      })
       return
     }
 
     if (!validateCPF(cpf as string)) {
-      alert('CPF inválido')
+      await Swal.fire({
+        icon: 'error',
+        title: 'CPF inválido',
+        text: 'Informe um CPF válido para continuar.',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK',
+      })
+      return
+    }
+
+    const emailResult = await fetch(
+      `${API_URL}/user?email=${encodeURIComponent(String(email))}`
+    )
+
+    if (emailResult.ok) {
+      await Swal.fire({
+        icon: 'error',
+        title: 'E-mail já cadastrado',
+        text: 'Já existe um usuário cadastrado com este e-mail.',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK',
+      })
       return
     }
 
@@ -58,6 +91,13 @@ export default function RegisterPage() {
     setResponse(request)
 
     if (request.status >= 200 && request.status < 300) {
+      await Swal.fire({
+        icon: 'success',
+        title: 'Usuário cadastrado',
+        text: 'Cadastro realizado com sucesso. Você já pode entrar na sua conta.',
+        confirmButtonColor: '#EF7E06',
+        confirmButtonText: 'OK',
+      })
       router.push('/login')
     }
   }
@@ -68,8 +108,7 @@ export default function RegisterPage() {
     <PageTemplate hasDefaultHeader>
       <RegisterTemplate onSubmit={handleSubmit} />
 
-      {status > 401 && <RequestGenericError message={response?.message} />}
-      {status >= 200 && status < 300 && <RequestSuccess />}
+      {status >= 400 && <RequestGenericError message={response?.message} />}
     </PageTemplate>
   )
 }

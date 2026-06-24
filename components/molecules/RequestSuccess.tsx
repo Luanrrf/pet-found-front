@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Swal from 'sweetalert2'
 
 interface RequestSuccessProps {
@@ -12,7 +12,13 @@ export default function RequestSuccess({
   title = 'Sucesso',
   redirectTo,
 }: RequestSuccessProps) {
+  const hasShownAlert = useRef(false)
+
   useEffect(() => {
+    if (hasShownAlert.current) return
+
+    hasShownAlert.current = true
+
     Swal.fire({
       icon: 'success',
       title,

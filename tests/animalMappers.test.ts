@@ -14,7 +14,7 @@ const animal = {
 
 describe('animalMappers', () => {
   it('returns the first animal image', () => {
-    expect(firstAnimalImage(animal)).toBe('/dog.png')
+    expect(firstAnimalImage(animal)).toBe('/api/dog.png')
   })
 
   it('returns empty string when animal has no image', () => {
@@ -35,6 +35,12 @@ describe('animalMappers', () => {
 
   it('matches when no filters are selected', () => {
     expect(animalMatchesFilters(animal, {})).toBe(true)
+  })
+
+  it('does not match adopted animals', () => {
+    expect(animalMatchesFilters({ ...animal, is_adopted: true }, {})).toBe(
+      false
+    )
   })
 
   it('matches selected type', () => {

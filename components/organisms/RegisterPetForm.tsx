@@ -41,6 +41,7 @@ export default function RegisterPetForm({
         <input
           name="name"
           placeholder="caso não tenha: 'Não sei'"
+          required
           className="w-full h-[48px] rounded-xl border border-[#DDD] px-4"
         />
       </div>
@@ -51,6 +52,7 @@ export default function RegisterPetForm({
         <input
           name="breed"
           placeholder="Ex: Dobberman"
+          required
           className="w-full h-[48px] rounded-xl border border-[#DDD] px-4"
         />
       </div>
@@ -60,6 +62,7 @@ export default function RegisterPetForm({
 
         <select
           name="type"
+          required
           className="w-full h-[48px] rounded-xl border border-[#DDD] px-4"
           defaultValue=""
         >
@@ -74,6 +77,7 @@ export default function RegisterPetForm({
 
         <select
           name="size"
+          required
           className="w-full h-[48px] rounded-xl border border-[#DDD] px-4"
           defaultValue=""
         >
@@ -89,6 +93,7 @@ export default function RegisterPetForm({
 
         <select
           name="gender"
+          required
           className="w-full h-[48px] rounded-xl border border-[#DDD] px-4"
           defaultValue=""
         >
@@ -123,8 +128,9 @@ export default function RegisterPetForm({
           id="image"
           type="file"
           accept="image/*"
+          required
           onChange={handleImage}
-          className="hidden"
+          className="sr-only"
         />
       </div>
 

@@ -3,23 +3,34 @@ import Loader from '../atoms/Loader'
 import PDPMainImage from '../organisms/PDPMainImage'
 import { useProductContext } from '../contexts/ProductContext'
 import PDPInformations from '../organisms/PDPInformations'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PDPGalleryList from '../organisms/PDPGalleryList'
 import PDPContact from '../organisms/PDPContact'
 import ReportPDP from '../organisms/ReportPDP'
+import getUserAuthentication from '../utils/getUserAuthentication'
+import { normalizeAnimalImageUrl } from '@/utils/animalMappers'
 
 export function PDPTemplate() {
   const { productContext } = useProductContext()
-  const [selectedImage, setSelectedImage] = useState<string | undefined>(
-    productContext?.images?.[0]?.url
-  )
+  const [selectedImage, setSelectedImage] = useState<string | undefined>()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    getUserAuthentication().then((user) => {
+      setIsLoggedIn(!!user && user.status !== 401)
+    })
+  }, [])
+
+  useEffect(() => {
+    const firstImage = normalizeAnimalImageUrl(productContext?.images?.[0]?.url)
+
+    if (firstImage) {
+      setSelectedImage(firstImage)
+    }
+  }, [productContext])
 
   if (!productContext || !productContext.images || !productContext.id) {
     return <Loader />
-  }
-
-  if (!selectedImage) {
-    setSelectedImage(productContext.images[0].url || '')
   }
 
   const translations: Record<string, string> = {
@@ -52,7 +63,9 @@ export function PDPTemplate() {
 
       return {
         label: info.label,
-        value: translations[stringValue] || String(rawValue),
+        value: isLoggedIn
+          ? translations[stringValue] || String(rawValue)
+          : 'Faça login para visualizar',
       }
     })
     .filter(
@@ -63,18 +76,27 @@ export function PDPTemplate() {
   const allImages = productContext.images || []
 
   const imagesWithoutMain = allImages.filter(
-    (image) => image.url !== selectedImage
+    (image) => normalizeAnimalImageUrl(image.url) !== selectedImage
   )
+
+  if (!selectedImage) {
+    return <Loader />
+  }
 
   return (
     <div className="flex max-md:flex-col md:grid md:grid-cols-[1fr_1fr] max-md:gap-3 md:gap-6 bg-[#FEE7B8] rounded-[18px] p-4">
       <div className="flex relative flex-col gap-1">
-        <PDPMainImage src={selectedImage || ''} alt={`${productContext.id}`} />
+        <PDPMainImage
+          src={selectedImage || ''}
+          alt={`${productContext.id}`}
+          blurImage={!isLoggedIn}
+        />
         <ReportPDP />
         {imagesWithoutMain.length > 0 && (
           <PDPGalleryList
             images={imagesWithoutMain}
             setSelectedImage={setSelectedImage}
+            blurImages={!isLoggedIn}
           />
         )}
       </div>

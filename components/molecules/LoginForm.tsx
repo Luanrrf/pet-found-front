@@ -2,7 +2,6 @@
 
 import { Dispatch, SetStateAction, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { Input } from '../atoms/Input'
 import { Button } from '../atoms/Button'
 import ModalPasswordForgotten from './ModalPasswordForgotten'
@@ -136,14 +135,6 @@ export default function LoginForm({
             Cadastre-se
           </span>
         </p>
-
-        <div className="flex w-full mb-4">
-          <Link href="/" className="flex w-full">
-            <Button className="w-full bg-transparent border border-orange-400 text-orange-400 rounded cursor-pointer">
-              Voltar
-            </Button>
-          </Link>
-        </div>
       </form>
 
       {modalOpen && <ModalPasswordForgotten setModalState={setModalOpen} />}

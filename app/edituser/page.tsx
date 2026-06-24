@@ -1,7 +1,6 @@
 'use client'
 
 import RequestGenericError from '@/components/molecules/RequestGenericError'
-import RequestSuccess from '@/components/molecules/RequestSuccess'
 import UnauthorizedError from '@/components/molecules/UnauthorizedError'
 import PageTemplate from '@/components/pages/PageTemplate'
 import { EditUserTemplate } from '@/components/templates/EditUserTemplate'
@@ -15,15 +14,55 @@ import getUserAuthentication from '@/components/utils/getUserAuthentication'
 import { optionalField } from '@/utils/formData'
 import Loader from '@/components/atoms/Loader'
 import { getCookie } from '@/components/utils/getCookie'
+import { useRouter } from 'next/navigation'
+
+function normalizeUser(user: FetcherResponse | null) {
+  if (!user) return undefined
+
+  const nestedUser = user.user
+  if (nestedUser && typeof nestedUser === 'object') {
+    return nestedUser as Record<string, unknown>
+  }
+
+  const data = user.data
+  if (data && typeof data === 'object') {
+    return data as Record<string, unknown>
+  }
+
+  return user
+}
 
 export default function EditUserPage() {
   const [response, setResponse] = useState<FetcherResponse | undefined>()
   const [user, setUser] = useState<FetcherResponse | null>(null)
   const [loadingUser, setLoadingUser] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     getUserAuthentication()
-      .then((authenticatedUser) => setUser(authenticatedUser))
+      .then(async (authenticatedUser) => {
+        const normalizedUser = normalizeUser(authenticatedUser)
+        const email = normalizedUser?.email
+
+        if (
+          typeof email === 'string' &&
+          (!normalizedUser?.name ||
+            !normalizedUser?.cpf ||
+            !normalizedUser?.cellphone)
+        ) {
+          const userResult = await fetch(
+            `${API_URL}/user?email=${encodeURIComponent(email)}`
+          )
+
+          if (userResult.ok) {
+            const fullUser = await userResult.json()
+            setUser({ ...fullUser, status: userResult.status })
+            return
+          }
+        }
+
+        setUser(authenticatedUser)
+      })
       .finally(() => setLoadingUser(false))
   }, [])
 
@@ -36,6 +75,18 @@ export default function EditUserPage() {
     const email = formData.get('email')
     const cellphone = formData.get('cellphone')
     const password = optionalField(formData.get('password'))
+    const confirmPassword = optionalField(formData.get('confirmPassword'))
+
+    if (password && password !== confirmPassword) {
+      await Swal.fire({
+        icon: 'error',
+        title: 'Senhas diferentes',
+        text: 'A senha e a confirmação de senha devem ser iguais.',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK',
+      })
+      return
+    }
 
     const token = getCookie('token')
 
@@ -55,6 +106,17 @@ export default function EditUserPage() {
     })
 
     setResponse(request)
+
+    if (request.status >= 200 && request.status < 300) {
+      await Swal.fire({
+        icon: 'success',
+        title: 'Usuário atualizado',
+        text: 'Seus dados foram atualizados com sucesso.',
+        confirmButtonColor: '#EF7E06',
+        confirmButtonText: 'OK',
+      })
+      router.push('/')
+    }
   }
 
   async function handleDelete() {
@@ -73,9 +135,24 @@ export default function EditUserPage() {
     const request = await fetcher({
       url: `${API_URL}/user/deactivate`,
       method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${getCookie('token')}`,
+      },
     })
 
     setResponse(request)
+
+    if (request.status >= 200 && request.status < 300) {
+      await Swal.fire({
+        icon: 'success',
+        title: 'Conta excluída',
+        text: 'Sua conta foi desativada com sucesso.',
+        confirmButtonColor: '#EF7E06',
+        confirmButtonText: 'OK',
+      })
+      document.cookie = 'token=; path=/; max-age=0'
+      router.push('/login')
+    }
   }
 
   const status = response?.status ?? 0
@@ -88,12 +165,13 @@ export default function EditUserPage() {
           <EditUserTemplate
             onSubmit={handleSubmit}
             onDelete={handleDelete}
-            user={user ?? undefined}
+            user={normalizeUser(user)}
           />
         )}
         {status === 401 && <UnauthorizedError message={response?.message} />}
-        {status > 401 && <RequestGenericError message={response?.message} />}
-        {status >= 200 && status < 300 && <RequestSuccess />}
+        {status >= 400 && status !== 401 && (
+          <RequestGenericError message={response?.message} />
+        )}
       </RequireAuth>
     </PageTemplate>
   )

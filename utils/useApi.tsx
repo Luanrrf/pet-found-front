@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 type UseApiOptions = {
   cacheKey?: string
   skip?: boolean
+  disableCache?: boolean
 }
 
 const globalCache = new Map<string, unknown>()
@@ -13,18 +14,22 @@ export function useApi<T>(
   options?: RequestInit,
   config?: UseApiOptions
 ) {
-  const { cacheKey = url, skip = false } = config || {}
+  const { cacheKey = url, skip = false, disableCache = false } = config || {}
 
   const [data, setData] = useState<T | null>(() => {
+    if (disableCache) return null
+
     return (globalCache.get(cacheKey) as T) || null
   })
 
-  const [loading, setLoading] = useState<boolean>(!globalCache.has(cacheKey))
+  const [loading, setLoading] = useState<boolean>(
+    disableCache || !globalCache.has(cacheKey)
+  )
   const [error, setError] = useState<Error | null>(null)
 
   async function fetchData(ignoreCache = false): Promise<void> {
     try {
-      if (!ignoreCache && globalCache.has(cacheKey)) {
+      if (!disableCache && !ignoreCache && globalCache.has(cacheKey)) {
         setData(globalCache.get(cacheKey) as T)
         setLoading(false)
         return
@@ -40,7 +45,9 @@ export function useApi<T>(
 
       const json: T = await response.json()
 
-      globalCache.set(cacheKey, json)
+      if (!disableCache) {
+        globalCache.set(cacheKey, json)
+      }
       setData(json)
       setError(null)
     } catch (err) {

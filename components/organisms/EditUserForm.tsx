@@ -1,7 +1,8 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import React from 'react'
-import { RegisterFields } from '../molecules/RegisterFields'
+import { EditFields } from '../molecules/EditFields'
 import { Button } from '../atoms/Button'
 
 type Props = {
@@ -11,14 +12,19 @@ type Props = {
 }
 
 export function EditUserForm({ onSubmit, onDelete, user }: Props) {
+  const router = useRouter()
   return (
     <form
       onSubmit={onSubmit}
       className="flex flex-col w-full max-md:max-w-[350px] md:max-w-[800px] gap-4"
     >
-      <RegisterFields initialValues={user} requirePassword={false} />
+      <EditFields initialValues={user} />
 
       <Button type="submit">Salvar alterações</Button>
+
+      <Button type="button" onClick={() => router.push('/editpassword')}>
+        Alterar senha
+      </Button>
 
       <Button type="button" onClick={onDelete} emojiSrc="/trash.png">
         Apagar Minha Conta

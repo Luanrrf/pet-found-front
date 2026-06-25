@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react'
 import { API_URL } from '@/components/constants/api'
 import RequireAuth from '@/components/utils/RequireAuth'
 import getUserAuthentication from '@/components/utils/getUserAuthentication'
-import { optionalField } from '@/utils/formData'
 import Loader from '@/components/atoms/Loader'
 import { getCookie } from '@/components/utils/getCookie'
 import { useRouter } from 'next/navigation'
@@ -46,9 +45,7 @@ export default function EditUserPage() {
 
         if (
           typeof email === 'string' &&
-          (!normalizedUser?.name ||
-            !normalizedUser?.cpf ||
-            !normalizedUser?.cellphone)
+          (!normalizedUser?.name || !normalizedUser?.cellphone)
         ) {
           const userResult = await fetch(
             `${API_URL}/user?email=${encodeURIComponent(email)}`
@@ -70,23 +67,9 @@ export default function EditUserPage() {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
-    const cpf = formData.get('cpf')
     const name = formData.get('name')
     const email = formData.get('email')
     const cellphone = formData.get('cellphone')
-    const password = optionalField(formData.get('password'))
-    const confirmPassword = optionalField(formData.get('confirmPassword'))
-
-    if (password && password !== confirmPassword) {
-      await Swal.fire({
-        icon: 'error',
-        title: 'Senhas diferentes',
-        text: 'A senha e a confirmação de senha devem ser iguais.',
-        confirmButtonColor: '#d33',
-        confirmButtonText: 'OK',
-      })
-      return
-    }
 
     const token = getCookie('token')
 
@@ -97,11 +80,9 @@ export default function EditUserPage() {
         Authorization: `Bearer ${token}`,
       },
       body: {
-        cpf,
         name,
         email,
         cellphone,
-        password,
       },
     })
 

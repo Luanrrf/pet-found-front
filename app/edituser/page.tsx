@@ -91,12 +91,15 @@ export default function EditUserPage() {
     if (request.status >= 200 && request.status < 300) {
       await Swal.fire({
         icon: 'success',
-        title: 'Usuário atualizado',
-        text: 'Seus dados foram atualizados com sucesso.',
+        title: 'Dados atualizados',
+        text: 'Faça login novamente para continuar.',
         confirmButtonColor: '#EF7E06',
         confirmButtonText: 'OK',
       })
-      router.push('/')
+
+      document.cookie = 'token=; path=/; max-age=0'
+
+      router.push('/login')
     }
   }
 

@@ -7,19 +7,11 @@ import { useEffect, useState } from 'react'
 import PDPGalleryList from '../organisms/PDPGalleryList'
 import PDPContact from '../organisms/PDPContact'
 import ReportPDP from '../organisms/ReportPDP'
-import getUserAuthentication from '../utils/getUserAuthentication'
 import { normalizeAnimalImageUrl } from '@/utils/animalMappers'
 
 export function PDPTemplate() {
   const { productContext } = useProductContext()
   const [selectedImage, setSelectedImage] = useState<string | undefined>()
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  useEffect(() => {
-    getUserAuthentication().then((user) => {
-      setIsLoggedIn(!!user && user.status !== 401)
-    })
-  }, [])
 
   useEffect(() => {
     const firstImage = normalizeAnimalImageUrl(productContext?.images?.[0]?.url)
@@ -63,9 +55,7 @@ export function PDPTemplate() {
 
       return {
         label: info.label,
-        value: isLoggedIn
-          ? translations[stringValue] || String(rawValue)
-          : 'Faça login para visualizar',
+        value: translations[stringValue] || String(rawValue),
       }
     })
     .filter(
@@ -86,17 +76,12 @@ export function PDPTemplate() {
   return (
     <div className="flex max-md:flex-col md:grid md:grid-cols-[1fr_1fr] max-md:gap-3 md:gap-6 bg-[#FEE7B8] rounded-[18px] p-4">
       <div className="flex relative flex-col gap-1">
-        <PDPMainImage
-          src={selectedImage || ''}
-          alt={`${productContext.id}`}
-          blurImage={!isLoggedIn}
-        />
+        <PDPMainImage src={selectedImage || ''} alt={`${productContext.id}`} />
         <ReportPDP />
         {imagesWithoutMain.length > 0 && (
           <PDPGalleryList
             images={imagesWithoutMain}
             setSelectedImage={setSelectedImage}
-            blurImages={!isLoggedIn}
           />
         )}
       </div>

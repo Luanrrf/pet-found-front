@@ -1,27 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import IconButton from '@/components/atoms/IconButton'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useFilterContext } from '../contexts/FilterContext'
 import { Button } from '../atoms/Button'
-import getUserAuthentication from '../utils/getUserAuthentication'
 import { firstAnimalImage } from '@/utils/animalMappers'
 
 export default function PetCarousel() {
   const router = useRouter()
   const [current, setCurrent] = useState(0)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const { pageContext } = useFilterContext()
   const animals = pageContext.animals.filter((animal) => !animal.is_adopted)
-
-  useEffect(() => {
-    getUserAuthentication().then((user) => {
-      setIsLoggedIn(!!user && user.status !== 401)
-    })
-  }, [])
 
   function previousPet() {
     if (current > 0) {
@@ -53,9 +45,7 @@ export default function PetCarousel() {
             alt="Pet"
             width={258}
             height={365}
-            className={`max-w-[258px] w-full aspect-[258/365] object-cover rounded-[20px] relative z-10 border-1 border-white ${
-              isLoggedIn ? '' : 'blur-md scale-105'
-            }`}
+            className="max-w-[258px] w-full aspect-[258/365] object-cover rounded-[20px] relative z-10 border-1 border-white"
           />
         </Link>
         <Image

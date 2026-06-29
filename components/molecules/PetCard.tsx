@@ -4,14 +4,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { firstAnimalImage } from '@/utils/animalMappers'
 
-type Props = AnimalProps & {
-  blurImage?: boolean
-}
-
-const PetCard = (animal: Props) => {
+const PetCard = (animal: AnimalProps) => {
   const firstImage = firstAnimalImage(animal)
-  const { id, blurImage = false } = animal
   if (!firstImage) return null
+
+  const { id } = animal
 
   return (
     <Link
@@ -23,9 +20,7 @@ const PetCard = (animal: Props) => {
         alt="pet"
         width={200}
         height={200}
-        className={`h-full w-full rounded-[20px] bg-stone-100 object-contain ${
-          blurImage ? 'blur-md scale-105' : ''
-        }`}
+        className="h-full w-full rounded-[20px] bg-stone-100 object-contain"
       />
     </Link>
   )

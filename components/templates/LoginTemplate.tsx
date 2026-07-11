@@ -1,7 +1,7 @@
 'use client'
 
 import LoginForm from '@/components/molecules/LoginForm'
-import AgreementModal from '@/components/molecules/AgreementModal'
+import AgreementModal from '@/components/organisms/AgreementModal'
 import { useState } from 'react'
 
 interface Props {

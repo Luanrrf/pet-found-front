@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { RegisterFields } from '../molecules/RegisterFields'
 import { Button } from '../atoms/Button'
 import Modal from './Modal'
-import AgreementTerms from '../atoms/AgreementTerms'
+import AgreementTerms from '../molecules/AgreementTerms'
 
 interface Props {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void

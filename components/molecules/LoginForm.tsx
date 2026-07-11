@@ -35,58 +35,6 @@ export default function LoginForm({
     setAgreementOpen(true)
   }
 
-  // async function handleForgotPassword() {
-  //   const emailResult = await Swal.fire({
-  //     title: 'Redefinir senha',
-  //     input: 'email',
-  //     inputLabel: 'Informe seu e-mail cadastrado',
-  //     inputValue: email,
-  //     showCancelButton: true,
-  //     confirmButtonText: 'Continuar',
-  //     cancelButtonText: 'Cancelar',
-  //     inputValidator: (value) => (!value ? 'Informe seu e-mail.' : null),
-  //   })
-
-  //   if (!emailResult.isConfirmed || !emailResult.value) return
-
-  //   const passwordResult = await Swal.fire({
-  //     title: 'Nova senha',
-  //     input: 'password',
-  //     inputLabel: 'Digite sua nova senha',
-  //     showCancelButton: true,
-  //     confirmButtonText: 'Salvar senha',
-  //     cancelButtonText: 'Cancelar',
-  //     inputValidator: (value) =>
-  //       !value || value.length < 6
-  //         ? 'A senha deve ter pelo menos 6 caracteres.'
-  //         : null,
-  //   })
-
-  //   if (!passwordResult.isConfirmed || !passwordResult.value) return
-
-  //   const response = await fetcher({
-  //     url: `${API_URL}/auth/forgot-password`,
-  //     method: 'POST',
-  //     body: {
-  //       email: emailResult.value,
-  //       password: passwordResult.value,
-  //     },
-  //   })
-
-  //   if (response.status >= 200 && response.status < 300) {
-  //     await Swal.fire('Senha alterada', 'Voce ja pode fazer login.', 'success')
-  //     setEmail(emailResult.value)
-  //     setPassword('')
-  //     return
-  //   }
-
-  //   await Swal.fire(
-  //     'Nao foi possivel alterar a senha',
-  //     response.message || 'Verifique o e-mail informado e tente novamente.',
-  //     'error'
-  //   )
-  // }
-
   return (
     <>
       <form onSubmit={onSubmit} className="flex flex-col gap-4">

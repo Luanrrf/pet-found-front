@@ -1,4 +1,4 @@
-import AgreementTerms from '../atoms/AgreementTerms'
+import AgreementTerms from '../molecules/AgreementTerms'
 
 interface Props {
   open: boolean
